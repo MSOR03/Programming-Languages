@@ -4,10 +4,7 @@ Algoritmo de busqueda de Grover (Qiskit).
 Busca un elemento marcado dentro de una "base de datos" no ordenada de N = 2^n
 elementos. Clasicamente se necesitan ~N/2 consultas; Grover lo logra en ~sqrt(N).
 
-Uso:
-    python grover.py                # simulador ideal (Aer)
-    python grover.py --ruido        # simulador con el ruido real de un chip IBM
-    python grover.py --ibm          # hardware real de IBM Quantum
+Rodriguez Rodriguez Daniel Santiago, Olarte Ramirez Maicol Sebastian
 """
 
 import sys
