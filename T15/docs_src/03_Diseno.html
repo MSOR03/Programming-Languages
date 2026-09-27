@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Diseño de la solución</title>
+<link rel="stylesheet" href="../estilo.css"></head><body>
+<!--PORTADA|Tarea 15 — Diseño de la solución|Emulador de una MANET heterogénea de computadores von Neumann|Entregable (c) · Tarea obligatoria automatizada · Entrega: 28 de septiembre de 2026-->
+{{CABECERA}}
+
+<h2>1. Arquitectura del emulador</h2>
+<p>El emulador se organiza en capas, siguiendo el modelo de una pila de protocolos. Las tres CPU solo se parecen en su frontera con la red: todas tienen una tarjeta de red (NIC) que transmite <b>bytes</b>; por encima de esa frontera, cada máquina es completamente distinta.</p>
+<figure><img src="../figs/capas.svg"><figcaption>Figura 1. Capas del emulador de la MANET.</figcaption></figure>
+
+<h2>2. Diseño de los tres computadores</h2>
+<h3>2.0 Comparación de los componentes von Neumann de cada fabricante</h3>
+<p>Los tres nodos respetan la arquitectura de John von Neumann (CPU con unidad de control y ALU, memoria única para programa y datos, unidad de entrada/salida y buses), pero ninguno de sus componentes coincide con el de los otros dos:</p>
+<table>
+<tr><th>Componente</th><th>ANDES-64</th><th>ORINOCO-32</th><th>CARIBE-16</th></tr>
+<tr><td>CPU (modelo de operandos)</td><td>registros de propósito general (3 operandos)</td><td>pila (0 operandos)</td><td>acumulador (1 operando)</td></tr>
+<tr><td>Registros visibles</td><td>R0–R15 de 64 bits</td><td>ninguno (pila de datos de 32 entradas)</td><td>ACC y X de 16 bits</td></tr>
+<tr><td>Registros de control</td><td>PC 12, IR 64, MAR 12, MDR 64, FR 8, SP</td><td>PC 13, IR ≤ 40, SP 5, RSP 4</td><td>PC 10, IR 16</td></tr>
+<tr><td>Banderas</td><td>Z, N, C, V, I</td><td>O, E</td><td>Z, N, C</td></tr>
+<tr><td>Memoria</td><td>4 KB por byte, big-endian, caché L1/L2</td><td>8 KB por byte, little-endian</td><td>1 024 palabras de 16 bits</td></tr>
+<tr><td>Bus de datos</td><td>64 bits</td><td>32 bits</td><td>16 bits</td></tr>
+<tr><td>Bus de direcciones</td><td>12 bits (4 096 bytes)</td><td>13 bits (8 192 bytes)</td><td>10 bits (1 024 palabras)</td></tr>
+<tr><td>Bus de control</td><td>12 señales: lectura, escritura, habilitación de memoria, de caché L1 y L2, E/S, NIC, interrupción, reconocimiento de interrupción, reloj, reinicio, espera</td><td>8 señales: lectura, escritura, byte/palabra, E/S, NIC, reloj, reinicio, error</td><td>6 señales: lectura, escritura, E/S, NIC, reloj, reinicio</td></tr>
+<tr><td>Instrucciones</td><td>71, de 16 a 40 bits (6 formatos)</td><td>39, de 1 a 5 bytes (4 formatos)</td><td>32, fijas de 16 bits (1 formato)</td></tr>
+<tr><td>Subrutinas</td><td>CALL/RET con pila en RAM</td><td>pila de retorno interna</td><td>JSR/JMI (retorno guardado en la subrutina)</td></tr>
+<tr><td>Interfaz de red</td><td>NSEND/NRECV sobre bytes</td><td>send/recv sobre bytes + bswap</td><td>NSND/NRCV, un byte por palabra</td></tr>
+<tr><td>Reloj</td><td>8 instrucciones/tick</td><td>5 instrucciones/tick</td><td>3 instrucciones/tick</td></tr>
+</table>
+<figure><img src="../figs/bloques_andes.svg"><figcaption>Figura 2a. Diagrama de bloques del ANDES-64.</figcaption></figure>
+<figure><img src="../figs/bloques_orinoco.svg"><figcaption>Figura 2b. Diagrama de bloques del ORINOCO-32.</figcaption></figure>
+<figure><img src="../figs/bloques_caribe.svg"><figcaption>Figura 2c. Diagrama de bloques del CARIBE-16.</figcaption></figure>
+
+<h3>2.1 ANDES-64 (Industrias Andinas de Cómputo)</h3>
+<p>Es el computador de la Tarea 9, implementado en las Tareas 10/17 (<code>codigo/andes64/</code>): máquina de registros de 64 bits, 16 registros (R13 = SP, R14 = LR), banderas Z N C V I, RAM de 4 KB direccionable por byte en orden big-endian, cachés L1 (128 B) y L2 (512 B), bus de direcciones de 12 bits y 71 instrucciones en 6 formatos de 16 a 40 bits. Su NIC se maneja con:</p>
+<pre>NSEND Rn, buf     ; transmite Rn bytes desde buf       (formato F5, 36 bits)
+NRECV Rn, buf     ; copia un paquete en buf; Rn ← su longitud (0 si no hay)</pre>
+
+<h3>2.2 ORINOCO-32 (Orinoco Systems S.A.)</h3>
+<table>
+<tr><th>Componente</th><th>Diseño</th></tr>
+<tr><td>CPU</td><td>Máquina de pila: la ALU toma sus operandos de la cima de una <b>pila de datos de 32 entradas</b> implementada en registros internos, y deja allí el resultado. Direcciones de retorno en una pila separada de 16 entradas.</td></tr>
+<tr><td>Registros</td><td>PC (13 bits), SP de datos (5 bits), RSP de retorno (4 bits), IR (hasta 40 bits). No hay registros de propósito general visibles.</td></tr>
+<tr><td>Banderas</td><td>O (desbordamiento aritmético de 32 bits) y E (error de pila). Las comparaciones (EQ, LT, GT) dejan 1/0 en la pila y los saltos condicionales consumen la cima.</td></tr>
+<tr><td>Memoria y buses</td><td>8 KB direccionables por byte, palabras de 32 bits en <b>little-endian</b>; bus de direcciones de 13 bits, bus de datos de 32 bits.</td></tr>
+<tr><td>Instrucciones</td><td>39, opcode de 8 bits; longitudes 1, 2, 3 o 5 bytes.</td></tr>
+<tr><td>NIC</td><td><code>send ( dir n -- )</code> y <code>recv ( dir -- n )</code>; <code>bswap</code> invierte los 4 bytes de la cima para convertir al orden de red.</td></tr>
+</table>
+{{INCLUIR:figs/isa_orinoco.html}}
+
+<h3>2.3 CARIBE-16 (Compañía Caribeña de Calculadoras)</h3>
+<table>
+<tr><th>Componente</th><th>Diseño</th></tr>
+<tr><td>CPU</td><td>Máquina de acumulador: toda operación aritmética o lógica es ACC ← ACC op operando. Sin multiplicación ni pila.</td></tr>
+<tr><td>Registros</td><td>ACC (16), X índice (16), PC (10), IR (16).</td></tr>
+<tr><td>Banderas</td><td>Z, N y C (acarreo en ADD/ADC; préstamo en SUB/CMP).</td></tr>
+<tr><td>Memoria y buses</td><td>1024 palabras de 16 bits, <b>direccionable por palabra</b>; bus de direcciones de 10 bits.</td></tr>
+<tr><td>Instrucciones</td><td>32, longitud fija de 16 bits: opcode 5 · M 1 (0 directo, 1 inmediato) · operando 10. Direccionamiento indexado con opcodes propios (LDAX/STAX).</td></tr>
+<tr><td>Subrutinas</td><td><code>JSR s</code> guarda el PC de retorno en la palabra <code>s</code> y salta a <code>s+1</code>; <code>JMI s</code> retorna (salto indirecto), como en el PDP-8.</td></tr>
+<tr><td>NIC</td><td>Interfaz de 8 bits: <code>NSND buf</code> transmite ACC palabras desde buf enviando el byte bajo de cada una; <code>NRCV buf</code> deja un byte por palabra y ACC ← longitud.</td></tr>
+</table>
+{{INCLUIR:figs/isa_caribe.html}}
+
+<h3>2.4 Formatos de instrucción comparados</h3>
+<figure><img src="../figs/formatos.svg"><figcaption>Figura 2. Formatos de instrucción de los tres fabricantes (en bits).</figcaption></figure>
+<p>El mismo cálculo (1 + 2 + … + n) se escribe de forma muy distinta en cada lenguaje ensamblador:</p>
+<pre>; ANDES-64                     ; ORINOCO-32 (pila)                  ; CARIBE-16 (32 bits en 2 palabras)
+suma: CMP  R4, R2              pushb 0 swap          ( s n )        bucle: LDA n
+      JG   fin_suma            bucle: dup jz fin_suma                      SUB i
+      ADD  R3, R3, R4                 dup rot add swap ( s+n n )           JC  fin
+      INC  R4                         pushb 1 sub      ( s+n n-1 )         LDA lo
+      JMP  suma                       jmp bucle                            ADD i
+                                                                           STA lo
+                                                                           LDA hi
+                                                                           ADC #0     ; acarreo
+                                                                           STA hi
+                                                                           LDA i
+                                                                           ADD #1
+                                                                           STA i
+                                                                           JMP bucle</pre>
+
+<h2>3. Interfaz común: NIC y PDU canónica</h2>
+<figure><img src="../figs/pdu.svg"><figcaption>Figura 3. Unidad de datos de protocolo (PDU) que intercambian las aplicaciones.</figcaption></figure>
+<table>
+<tr><th>Tipo</th><th>Nombre</th><th>Semántica</th></tr>
+<tr><td>1</td><td>SUMA(n)</td><td>Solicita al destino calcular 1 + 2 + … + n.</td></tr>
+<tr><td>2</td><td>RESULTADO(v)</td><td>Respuesta a SUMA.</td></tr>
+<tr><td>3</td><td>PING(k)</td><td>Solicitud de eco con número de secuencia k.</td></tr>
+<tr><td>4</td><td>PONG(k)</td><td>Respuesta de eco.</td></tr>
+</table>
+<p>Al transmitir, el byte 0 es el <b>destino</b>; la NIC lo retira y la red entrega al receptor el mismo mensaje con el byte 0 reemplazado por el <b>origen</b>. Así, un servidor responde simplemente cambiando el tipo y reenviando el búfer. Los enteros van en 32 bits big-endian (“orden de red”). Traducción en cada máquina:</p>
+<ul>
+<li><b>ANDES-64</b> (big-endian, 64 bits): arma el entero byte a byte con desplazamientos (<code>LEER_VALOR</code>, <code>ESCRIBIR_VALOR</code>) y extiende el signo de 32 a 64 bits.</li>
+<li><b>ORINOCO-32</b> (little-endian): <code>load</code> de 4 bytes seguido de <code>bswap</code>; al escribir, <code>bswap</code> y <code>store</code>.</li>
+<li><b>CARIBE-16</b> (16 bits, por palabra): cada byte ocupa una palabra; el valor de 32 bits se reconstruye como dos palabras (hi:lo) con <code>SHL #8</code> y <code>OR</code>.</li>
+</ul>
+
+<h2>4. Diseño de la red</h2>
+<h3>4.1 Medio de radio y capa de enlace</h3>
+<ul>
+<li>Enlace entre i y j si distancia(i, j) ≤ min(alcance<sub>i</sub>, alcance<sub>j</sub>) (100 m).</li>
+<li>Cada transmisión de un salto llega en el tick siguiente; se pierde con probabilidad p (independiente).</li>
+<li>Unicast: hasta 3 intentos (ACK implícito); si fallan todos o el vecino está fuera de alcance, se notifica ruptura. Broadcast: un solo intento, cada vecino lo recibe o no independientemente.</li>
+<li>Energía: 1 unidad por transmisión (incluidas retransmisiones), 0,5 por recepción.</li>
+</ul>
+<h3>4.2 Enrutamiento (AODV simplificado)</h3>
+<table>
+<tr><th>Parámetro</th><th class="n">Valor</th><th>Significado</th></tr>
+<tr><td>TTL</td><td class="n">12</td><td>Saltos máximos de un RREQ.</td></tr>
+<tr><td>VIDA_RUTA</td><td class="n">300 ticks</td><td>Tiempo de vida de una ruta sin uso (3 s).</td></tr>
+<tr><td>ESPERA_RREP</td><td class="n">40 ticks</td><td>Espera antes de reintentar el descubrimiento.</td></tr>
+<tr><td>MAX_RREQ</td><td class="n">3</td><td>Intentos de descubrimiento antes de descartar los paquetes pendientes.</td></tr>
+</table>
+<p>Tabla de rutas por nodo: <code>destino → [siguiente salto, saltos, expira]</code>. Se aprende la ruta inversa con cada RREQ, la directa con cada RREP y también la ruta de vuelta con cada paquete de datos recibido. Simplificaciones respecto del RFC 3561: no se usan números de secuencia de destino (las rutas se reemplazan por una de menos saltos o del mismo vecino) y, en vez de RERR, el nodo que detecta la ruptura hace <b>reparación local</b>: borra las rutas que usaban ese vecino, guarda el paquete y busca una nueva ruta.</p>
+<div class="dos">
+<figure><img src="../figs/secuencia.svg"><figcaption>Figura 4. Diagrama de secuencia del escenario 1: descubrimiento de ruta de dos saltos y cálculo remoto.</figcaption></figure>
+<figure><img src="../figs/flujo_datos.svg"><figcaption>Figura 5. Envío de un paquete de datos desde un nodo.</figcaption></figure>
+</div>
+<pre>_recibir(nodo, emisor, p):
+  si p es RREQ:   si (p.origen, p.id) ya visto: descartar
+                  instalar ruta inversa origen → emisor (saltos + 1)
+                  si nodo = p.destino: enviar RREP por la ruta inversa
+                  si no y saltos &lt; TTL: retransmitir por broadcast
+  si p es RREP:   instalar ruta al origen del RREP → emisor
+                  si nodo = destino del RREP: enviar los paquetes pendientes
+                  si no: reenviar el RREP por la ruta inversa
+  si p es DATOS:  instalar ruta de vuelta al origen
+                  si nodo = p.destino: NIC.rx ← [origen] + datos ; registrar latencia
+                  si no: _enviar_datos(nodo, p)          ; el nodo actúa como enrutador</pre>
+
+<h3>4.3 Movilidad</h3>
+<p>Random waypoint en un área rectangular: destino uniforme, velocidad v (m/s) constante, pausa de 100 ticks (1 s) al llegar. Con v = 0 los nodos quedan fijos en posiciones aleatorias.</p>
+
+<h3>4.4 Ciclo de simulación</h3>
+<figure><img src="../figs/flujo_tick.svg"><figcaption>Figura 6. Un tick de simulación. Las CPU se intercalan: en cada tick cada una ejecuta tantas instrucciones como indica su reloj (8, 5 o 3).</figcaption></figure>
+
+<h2>5. Programas de los nodos</h2>
+<table>
+<tr><th>Programa</th><th>Máquina</th><th>Función</th></tr>
+<tr><td class="mono">servidor.a64 / servidor.o32 / servidor.c16</td><td>las tres</td><td>Bucle infinito: sondea la NIC; responde PING con PONG y SUMA(n) con RESULTADO(1+…+n). El CARIBE-16 suma en doble precisión (32 bits) con ADC.</td></tr>
+<tr><td class="mono">cliente_ping.a64</td><td>ANDES-64</td><td>Lee destino, K, ESPERA y PAUSA; envía K pings; espera cada PONG (descarta los atrasados) e imprime cuántos volvieron.</td></tr>
+<tr><td class="mono">coordinador.a64</td><td>ANDES-64</td><td>Lee m parejas (nodo, n), envía m solicitudes SUMA, recoge los resultados en el orden de llegada e imprime el total.</td></tr>
+<tr><td class="mono">pdu.a64</td><td>ANDES-64</td><td>Biblioteca: LEER_VALOR, ESCRIBIR_VALOR, PONER_BYTE, IMPRIMIR.</td></tr>
+</table>
+
+<h2>6. Diseño del software</h2>
+<figure><img src="../figs/clases.svg"><figcaption>Figura 7. Diagrama de clases/módulos.</figcaption></figure>
+<table>
+<tr><th>Módulo</th><th>Responsabilidad</th></tr>
+<tr><td class="mono">andes64/</td><td>CPU, ensamblador y cargador del ANDES-64 (copiados de la Tarea 17).</td></tr>
+<tr><td class="mono">orinoco32.py</td><td>CPU de pila y su ensamblador (sintaxis tipo Forth).</td></tr>
+<tr><td class="mono">caribe16.py</td><td>CPU de acumulador y su ensamblador.</td></tr>
+<tr><td class="mono">arquitecturas.py</td><td>Adaptadores con interfaz común (<code>paso</code>, <code>detenida</code>, <code>enviar</code>, <code>rx</code>), relojes (IPC) y creación de nodos.</td></tr>
+<tr><td class="mono">red.py</td><td>Clases <code>Red</code>, <code>Nodo</code>, <code>Paquete</code>: radio, enlace, AODV, movilidad, métricas y bitácora.</td></tr>
+<tr><td class="mono">manet.py</td><td>Escenarios e1–e4, línea de comandos y barrido de experimentos.</td></tr>
+<tr><td class="mono">visor.py</td><td>Animación en tkinter: nodos, alcances, enlaces, rutas activas y paquetes en vuelo.</td></tr>
+</table>
+</body></html>

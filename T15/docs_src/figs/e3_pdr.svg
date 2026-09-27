@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" font-family="Arial, Helvetica, sans-serif" font-size="11">
+<line x1="70" x2="510" y1="254.0" y2="254.0" stroke="#e0e0e0"/>
+<text x="64" y="258.0" text-anchor="end" fill="#333333">0</text>
+<line x1="70" x2="510" y1="197.8" y2="197.8" stroke="#e0e0e0"/>
+<text x="64" y="201.8" text-anchor="end" fill="#333333">0,25</text>
+<line x1="70" x2="510" y1="141.6" y2="141.6" stroke="#e0e0e0"/>
+<text x="64" y="145.6" text-anchor="end" fill="#333333">0,5</text>
+<line x1="70" x2="510" y1="85.4" y2="85.4" stroke="#e0e0e0"/>
+<text x="64" y="89.4" text-anchor="end" fill="#333333">0,75</text>
+<line x1="70" x2="510" y1="29.2" y2="29.2" stroke="#e0e0e0"/>
+<text x="64" y="33.2" text-anchor="end" fill="#333333">1</text>
+<line x1="70.0" x2="70.0" y1="254" y2="258" stroke="#000000"/>
+<text x="70.0" y="271" text-anchor="middle" fill="#333333">0</text>
+<line x1="158.0" x2="158.0" y1="254" y2="258" stroke="#000000"/>
+<text x="158.0" y="271" text-anchor="middle" fill="#333333">0,1</text>
+<line x1="246.0" x2="246.0" y1="254" y2="258" stroke="#000000"/>
+<text x="246.0" y="271" text-anchor="middle" fill="#333333">0,2</text>
+<line x1="334.0" x2="334.0" y1="254" y2="258" stroke="#000000"/>
+<text x="334.0" y="271" text-anchor="middle" fill="#333333">0,3</text>
+<line x1="422.0" x2="422.0" y1="254" y2="258" stroke="#000000"/>
+<text x="422.0" y="271" text-anchor="middle" fill="#333333">0,4</text>
+<line x1="510.0" x2="510.0" y1="254" y2="258" stroke="#000000"/>
+<text x="510.0" y="271" text-anchor="middle" fill="#333333">0,5</text>
+<line x1="70" x2="510" y1="254" y2="254" stroke="#000000"/>
+<text x="290.0" y="294" text-anchor="middle" fill="#333333">probabilidad de pérdida por transmisión p</text>
+<text transform="translate(14 136.0) rotate(-90)" text-anchor="middle" fill="#333333">fracción entregada</text>
+<path d="M70.0,29.2 L158.0,29.2 L246.0,30.0 L334.0,44.6 L422.0,82.7 L510.0,164.9" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="70.0" cy="29.2" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="158.0" cy="29.2" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="246.0" cy="30.0" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="334.0" cy="44.6" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="422.0" cy="82.7" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="510.0" cy="164.9" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="520" cy="164.9" r="4" fill="#1f77b4"/>
+<text x="528" y="168.9" fill="#000000">PDR medido</text>
+<path d="M70.0,29.2 L158.0,30.1 L246.0,36.3 L334.0,52.5 L422.0,81.5 L510.0,122.2" fill="none" stroke="#ff7f0e" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="70.0" cy="29.2" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="158.0" cy="30.1" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="246.0" cy="36.3" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="334.0" cy="52.5" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="422.0" cy="81.5" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="510.0" cy="122.2" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="520" cy="122.2" r="4" fill="#ff7f0e"/>
+<text x="528" y="126.2" fill="#000000">modelo (1 − p³)⁴</text>
+</svg>

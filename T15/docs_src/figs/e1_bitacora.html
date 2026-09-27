@@ -1,0 +1,22 @@
+<pre class="largo">[t=    0] escenario e1: Cadena fija 1-2-3: cálculo distribuido multi-salto entre los tres fabricantes.
+[t=    0]   ANDES-64#1   Industrias Andinas de Cómputo (IAC)    programa=coordinador   pos=(10, 30) 8 instr/tick
+[t=    0]   ORINOCO-32#2 Orinoco Systems S.A.                   programa=servidor      pos=(100, 30) 5 instr/tick
+[t=    0]   CARIBE-16#3  Compañía Caribeña de Calculadoras (CCC) programa=servidor      pos=(190, 30) 3 instr/tick
+[t=    6] ANDES-64#1: envía SUMA(10) a #2
+[t=    6] ANDES-64#1: RREQ #1 buscando ruta a #2 (intento 1)
+[t=    7] ORINOCO-32#2: RREQ de #1 llegó en 1 salto(s); responde RREP
+[t=    8] ANDES-64#1: ruta a #2 establecida vía #2 (1 saltos)
+[t=    9] ORINOCO-32#2: recibe SUMA(10) de #1  [1 salto(s), 3 ticks]
+[t=   12] ANDES-64#1: envía SUMA(1000) a #3
+[t=   12] ANDES-64#1: RREQ #2 buscando ruta a #3 (intento 1)
+[t=   14] CARIBE-16#3: RREQ de #1 llegó en 2 salto(s); responde RREP
+[t=   16] ANDES-64#1: ruta a #3 establecida vía #2 (2 saltos)
+[t=   18] CARIBE-16#3: recibe SUMA(1000) de #1  [2 salto(s), 6 ticks]
+[t=   34] ORINOCO-32#2: envía RESULTADO(55) a #1
+[t=   35] ANDES-64#1: recibe RESULTADO(55) de #2  [1 salto(s), 1 ticks]
+[t= 4363] CARIBE-16#3: envía RESULTADO(500500) a #1
+[t= 4363] CARIBE-16#3: RREQ #1 buscando ruta a #1 (intento 1)
+[t= 4365] ANDES-64#1: RREQ de #3 llegó en 2 salto(s); responde RREP
+[t= 4367] CARIBE-16#3: ruta a #1 establecida vía #2 (2 saltos)
+[t= 4369] ANDES-64#1: recibe RESULTADO(500500) de #3  [2 salto(s), 6 ticks]
+[t= 4403] ANDES-64#1: la CPU ejecutó HLT</pre>

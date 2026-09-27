@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Descripción y justificación</title>
+<link rel="stylesheet" href="../estilo.css"></head><body>
+<!--PORTADA|Tarea 15 — Descripción y justificación del problema|Diseño de un computador von Neumann sobre una MANET: emulador de una MANET heterogénea|Entregable (b) · Tarea obligatoria automatizada · Entrega: 28 de septiembre de 2026-->
+{{CABECERA}}
+
+<h2>1. Enunciado</h2>
+<ol>
+<li><b>Diseño de un emulador de una MANET heterogénea</b> compuesta por (al menos) tres nodos (computadores) con arquitectura John von Neumann de diferentes “fabricantes”, lo cual implica que los registros, la memoria, las banderas, los buses, la CPU, etc. no son iguales y que su conjunto de microinstrucciones en binario y su lenguaje ensamblador son distintos.</li>
+<li>(Opcional, dificultad 2) Emulador de un computador virtual von Neumann que se ejecute sobre la MANET, con al menos 40 microinstrucciones virtuales.</li>
+<li>(Opcional, continuación) Ensamblador y Enlazador-Cargador de la máquina virtual.</li>
+</ol>
+<p class="nota"><b>Alcance de esta entrega:</b> se resuelve el punto 1 (obligatorio) completo — diseño <i>e</i> implementación del emulador de la MANET heterogénea. Los puntos 2 y 3 son opcionales y no se abordan.</p>
+
+<h2>2. Descripción del problema</h2>
+<p>Se necesita un programa que reproduzca, en un solo computador anfitrión, el funcionamiento de una red móvil ad hoc cuyos nodos son computadores von Neumann <b>de fabricantes distintos</b>. El problema tiene dos mitades que deben encajar:</p>
+<h3>2.1 Los nodos: tres computadores realmente distintos</h3>
+<p>No basta con dar nombres diferentes a una misma máquina: cada fabricante debe tener su propia organización interna y su propio lenguaje. Se diseñaron tres:</p>
+<table>
+<tr><th></th><th>ANDES-64</th><th>ORINOCO-32</th><th>CARIBE-16</th></tr>
+<tr><td>Fabricante (ficticio)</td><td>Industrias Andinas de Cómputo</td><td>Orinoco Systems S.A.</td><td>Compañía Caribeña de Calculadoras</td></tr>
+<tr><td>Modelo de operandos</td><td>16 registros de propósito general</td><td>pila (cero direcciones)</td><td>acumulador + registro índice</td></tr>
+<tr><td>Palabra</td><td>64 bits</td><td>32 bits</td><td>16 bits</td></tr>
+<tr><td>Memoria</td><td>4 KB por byte, big-endian, caché L1/L2</td><td>8 KB por byte, <b>little-endian</b></td><td>1024 palabras, direccionable por palabra</td></tr>
+<tr><td>Bus de direcciones</td><td>12 bits</td><td>13 bits</td><td>10 bits</td></tr>
+<tr><td>Instrucciones</td><td>71, longitud variable 16–40 bits</td><td>39, longitud variable 1–5 bytes</td><td>32, longitud fija 16 bits</td></tr>
+<tr><td>Banderas</td><td>Z, N, C, V, I</td><td>O (desbordamiento), E (error de pila)</td><td>Z, N, C</td></tr>
+<tr><td>Subrutinas</td><td>CALL/RET con pila en RAM</td><td>pila de retorno interna (16)</td><td>JSR guarda el retorno en la subrutina (PDP-8)</td></tr>
+<tr><td>Multiplicación</td><td>sí (64 bits)</td><td>sí (32 bits)</td><td><b>no</b></td></tr>
+<tr><td>Ensamblador</td><td><code>MOVI R1, 5</code></td><td><code>push buf pushb 1 add loadb</code></td><td><code>LDA #5</code> · <code>ADD var</code></td></tr>
+<tr><td>Reloj</td><td>8 instr./tick</td><td>5 instr./tick</td><td>3 instr./tick</td></tr>
+</table>
+<p>El ANDES-64 es el computador diseñado por el grupo en la Tarea 9 (e implementado para las Tareas 10 y 17), reutilizado aquí como uno de los tres fabricantes.</p>
+<h3>2.2 La red: una MANET emulada</h3>
+<ul>
+<li>Los nodos tienen posición en un plano, alcance de radio y, opcionalmente, movimiento.</li>
+<li>Los mensajes viajan por radio con retardo y pérdidas; si el destino no está al alcance, otros nodos —de <b>cualquier</b> fabricante— los reenvían.</li>
+<li>Las rutas se descubren y se reparan dinámicamente (protocolo tipo AODV).</li>
+<li>Los programas de cada CPU, escritos en su propio ensamblador, usan su tarjeta de red para enviar y recibir; la heterogeneidad obliga a definir un <b>formato de mensaje común</b> y a que cada programa lo traduzca a su representación interna (tamaño de palabra y orden de bytes).</li>
+</ul>
+
+<h2>3. Justificación</h2>
+<ul>
+<li><b>Relación con el curso.</b> La Tarea 9 pidió que el computador tuviera “dispositivos de comunicaciones que le permitan unirse a redes de computadores convencionales”. Esta tarea lleva esa idea al caso extremo: una red sin infraestructura en la que los computadores ni siquiera comparten el lenguaje de máquina. Obliga a pensar qué significa “lenguaje” en cada nivel: el de máquina (binario), el ensamblador (simbólico) y el protocolo (el lenguaje común de la red).</li>
+<li><b>Heterogeneidad real.</b> Internet funciona precisamente entre máquinas heterogéneas (x86 little-endian, antiguos PowerPC big-endian, microcontroladores de 8/16 bits en IoT). El problema de representación de datos que aquí aparece —orden de bytes, tamaño de palabra— es el mismo que resolvieron XDR, ASN.1 o el “orden de red” de TCP/IP.</li>
+<li><b>Vigencia de las MANET.</b> Redes de emergencia, de vehículos, de drones y de sensores dependen de enrutamiento multi-salto sin infraestructura; entender el efecto de la movilidad y de las pérdidas en la entrega es un conocimiento básico de la ingeniería de sistemas.</li>
+<li><b>Emulación como herramienta.</b> Construir la red en software permite experimentar con escenarios reproducibles (misma semilla, mismos resultados) que serían costosos con hardware real.</li>
+</ul>
+
+<h2>4. Objetivos</h2>
+<h3>General</h3>
+<p>Diseñar e implementar un emulador de una MANET heterogénea de al menos tres computadores von Neumann de fabricantes distintos, que ejecuten programas binarios de sus propias ISA y cooperen a través de la red.</p>
+<h3>Específicos</h3>
+<ol>
+<li>Diseñar tres arquitecturas von Neumann con registros, memoria, banderas, buses, CPU, formatos de instrucción, código binario y lenguaje ensamblador diferentes, e implementar su emulador y su ensamblador.</li>
+<li>Diseñar una interfaz de red común (NIC + PDU canónica) que oculte las diferencias de las máquinas al medio pero no a los programas.</li>
+<li>Implementar el medio de radio (alcance, retardo, pérdidas, reintentos), la movilidad y un protocolo de enrutamiento reactivo tipo AODV.</li>
+<li>Escribir en los tres lenguajes ensambladores programas que cooperen (servidores, cliente, coordinador de un cálculo distribuido).</li>
+<li>Medir el desempeño (PDR, latencia, sobrecarga, energía, tiempo de servicio) en al menos tres escenarios y analizar el efecto de la movilidad, las pérdidas y la heterogeneidad.</li>
+</ol>
+
+<h2>5. Restricciones</h2>
+<ul>
+<li>Implementación en Python 3 con <b>solo la biblioteca estándar</b> (lineamiento 3.3.1); la visualización usa tkinter, incluido en la instalación estándar.</li>
+<li>Los nodos se emulan a nivel de instrucción; la red es un modelo de tiempo discreto (1 tick = 10 ms simulados).</li>
+<li>El protocolo de enrutamiento es una versión simplificada de AODV (sin números de secuencia de destino ni RERR; ver diseño).</li>
+</ul>
+</body></html>

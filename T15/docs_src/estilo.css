@@ -1,0 +1,56 @@
+@page {
+  size: letter;
+  margin: 2.5cm 2.5cm 2.5cm 3cm;
+  @bottom-center { content: counter(page); font-family: "Times New Roman", serif; font-size: 10pt; }
+}
+@page :first { @bottom-center { content: none; } }
+
+body { font-family: "Times New Roman", Times, serif; font-size: 12pt; line-height: 1.5;
+       color: #000; background: #fff; margin: 0; }
+h1, h2, h3, h4 { font-family: "Times New Roman", Times, serif; color: #000; line-height: 1.25; }
+h1 { font-size: 16pt; margin: 0 0 12pt; }
+h2 { font-size: 13pt; margin: 18pt 0 6pt; break-after: avoid; }
+h3 { font-size: 12pt; margin: 12pt 0 4pt; break-after: avoid; }
+h4 { font-size: 12pt; font-weight: normal; font-style: italic; margin: 10pt 0 3pt; break-after: avoid; }
+p { margin: 0 0 8pt; text-align: justify; }
+li > b:first-child { font-weight: normal; font-style: italic; }
+code, pre, .mono { font-family: "Courier New", Courier, monospace; font-size: 9.5pt; }
+pre { border: 0.5pt solid #777; padding: 6pt 8pt; white-space: pre-wrap; break-inside: avoid;
+      margin: 4pt 0 10pt; line-height: 1.25; }
+pre.largo { break-inside: auto; font-size: 8pt; }
+table { border-collapse: collapse; width: 100%; margin: 6pt 0 12pt; font-size: 10pt; line-height: 1.3; break-inside: avoid; }
+th, td { border: 0.5pt solid #000; padding: 3pt 5pt; text-align: left; vertical-align: top; }
+th { font-weight: bold; background: none; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+figure { margin: 10pt 0 14pt; break-inside: avoid; text-align: center; }
+figure svg, figure img { max-width: 100%; height: auto; }
+figcaption { font-size: 10pt; margin-top: 4pt; }
+.nota { border: 0.5pt solid #000; padding: 6pt 9pt; margin: 6pt 0 10pt; }
+ul, ol { margin: 0 0 8pt 18pt; padding-left: 8pt; text-align: justify; }
+li { margin-bottom: 3pt; }
+.dos { display: block; }
+.dos figure img { max-width: 75%; }
+.ref li { font-size: 11pt; }
+.salto { break-before: page; }
+
+/* portada */
+.portada { text-align: center; break-after: page; height: 22cm; display: flex; flex-direction: column;
+           justify-content: space-between; }
+.portada .inst { font-size: 14pt; font-weight: bold; text-transform: uppercase; line-height: 1.6; }
+.portada h1 { font-size: 20pt; margin: 0 0 8pt; }
+.portada .sub { font-size: 14pt; }
+.portada .autores { font-size: 13pt; line-height: 1.6; }
+.portada .datos { font-size: 12pt; line-height: 1.6; }
+
+/* índice y capítulos */
+.indice { break-after: page; }
+.indice h1 { text-align: center; }
+table.indice td { border: none; font-size: 12pt; padding: 4pt 6pt; }
+table.indice td.lit { width: 40pt; }
+.capitulo { break-before: page; }
+.cabecera { font-size: 9pt; font-style: italic; border-bottom: 0.5pt solid #000; padding-bottom: 2pt; margin-bottom: 14pt; }
+h1.cap { font-size: 16pt; text-align: center; text-transform: uppercase; margin-bottom: 16pt; }
+h2.parte { font-size: 14pt; text-align: center; }
+h2.parte.salto { break-before: page; }
+h3.archivo { font-family: "Courier New", monospace; font-size: 11pt; margin-top: 14pt; }
+pre.codigo { font-size: 8pt; line-height: 1.2; break-inside: auto; }

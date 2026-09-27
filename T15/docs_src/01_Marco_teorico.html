@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Marco teórico</title>
+<link rel="stylesheet" href="../estilo.css"></head><body>
+<!--PORTADA|Tarea 15 — Marco teórico|Diseño de un computador von Neumann sobre una MANET: emulador de una MANET heterogénea|Entregable (a) · Tarea obligatoria automatizada · Entrega: 28 de septiembre de 2026-->
+{{CABECERA}}
+
+<h2>1. La arquitectura de von Neumann</h2>
+<p>En el <i>First Draft of a Report on the EDVAC</i> (1945), John von Neumann describió un computador formado por una unidad aritmética, una unidad de control, una memoria que guarda <b>tanto los datos como el programa</b>, y dispositivos de entrada y salida, comunicados por buses. La idea del programa almacenado permite que el mismo hardware ejecute cualquier algoritmo cargando otra secuencia de instrucciones en memoria. La unidad de control repite indefinidamente el ciclo <b>buscar → decodificar → ejecutar</b>: lee la instrucción apuntada por el contador de programa (PC), la interpreta y genera las señales para la ALU, los registros o la memoria (Peña, 2006, sec. 2.5).</p>
+<p>Dentro de ese esquema común caben diseños muy distintos. Los elementos que la Tarea 15 exige variar entre “fabricantes” son:</p>
+<table>
+<tr><th>Dimensión</th><th>Alternativas</th></tr>
+<tr><td>Modelo de operandos</td><td>Máquina de <b>acumulador</b> (un registro implícito, p. ej. EDSAC, PDP-8), de <b>pila</b> o cero direcciones (Burroughs B5000, JVM, chips Forth), de <b>registros</b> de propósito general (IBM 360, RISC).</td></tr>
+<tr><td>Tamaño de palabra</td><td>8, 16, 32, 64 bits: determina el rango de los enteros y el ancho de registros y buses.</td></tr>
+<tr><td>Direccionamiento de memoria</td><td>Por byte o por palabra; ancho del bus de direcciones (capacidad máxima).</td></tr>
+<tr><td>Orden de los bytes (<i>endianness</i>)</td><td><b>Big-endian</b> (el byte más significativo en la dirección menor: IBM 360, Motorola 68k) o <b>little-endian</b> (el menos significativo primero: x86).</td></tr>
+<tr><td>Formato de instrucción</td><td>Longitud fija (RISC) o variable (CISC); número de campos y modos de direccionamiento.</td></tr>
+<tr><td>Banderas</td><td>Conjunto de indicadores de estado (cero, negativo, acarreo, desbordamiento…) o ninguno (las máquinas de pila suelen dejar el resultado de la comparación en la pila).</td></tr>
+<tr><td>Reloj</td><td>Instrucciones por unidad de tiempo.</td></tr>
+</table>
+<p>Cada combinación define un <b>conjunto de instrucciones (ISA)</b> distinto; un programa binario de una máquina no tiene significado en otra, y su lenguaje ensamblador (la representación simbólica uno a uno de ese binario) también es distinto. Por eso, en una red de computadores heterogéneos, lo que se comparte no son programas sino <b>mensajes con un formato acordado</b>.</p>
+
+<h2>2. Heterogeneidad y representación externa de datos</h2>
+<p>Cuando dos máquinas con distinto tamaño de palabra o distinto orden de bytes intercambian un entero, deben acordar una representación externa. En Internet se usa el <b>orden de red</b> (big-endian), definido para los protocolos TCP/IP, y funciones como <code>htonl</code>/<code>ntohl</code> convierten entre el orden del anfitrión y el de red. Estándares como XDR (RFC 4506) o ASN.1 generalizan esta idea. El proceso de convertir datos internos a esa representación se llama <b>serialización</b> (<i>marshalling</i>). En esta tarea:</p>
+<ul>
+<li>una máquina little-endian debe <b>invertir el orden de los bytes</b> de sus enteros (instrucción BSWAP del ORINOCO-32);</li>
+<li>una máquina de 16 bits debe representar enteros de 32 bits con <b>dos palabras</b> y aritmética de precisión múltiple (propagando el acarreo, como en el CARIBE-16);</li>
+<li>una máquina direccionable por palabra debe decidir cómo mapear bytes a palabras (el CARIBE-16 usa un byte por palabra en su interfaz de red de 8 bits).</li>
+</ul>
+
+<h2>3. Redes móviles ad hoc (MANET)</h2>
+<p>Una MANET (<i>Mobile Ad hoc NETwork</i>) es una red formada por nodos móviles que se comunican por radio <b>sin infraestructura fija</b> (sin enrutadores ni puntos de acceso). Cada nodo es a la vez anfitrión y enrutador: si el destino está fuera del alcance de radio, los nodos intermedios reenvían los paquetes (<b>comunicación multi-salto</b>). El grupo de trabajo MANET del IETF (RFC 2501, 1999) resume sus características:</p>
+<ul>
+<li><b>Topología dinámica:</b> los nodos se mueven y los enlaces aparecen y desaparecen de forma impredecible.</li>
+<li><b>Enlaces de ancho de banda limitado y con pérdidas</b>, variables y posiblemente asimétricos.</li>
+<li><b>Energía limitada:</b> los nodos funcionan con baterías; cada transmisión cuesta energía.</li>
+<li><b>Seguridad física limitada</b> y operación distribuida sin administración central.</li>
+</ul>
+<p>Aplicaciones típicas: comunicaciones militares y de emergencia, redes vehiculares (VANET), redes de sensores y redes comunitarias. El alcance de radio define un <b>grafo de conectividad</b> (modelo de disco unitario): hay enlace entre dos nodos si su distancia es menor que el alcance. Si el grafo no es conexo, la red está <b>particionada</b> y algunos destinos son inalcanzables.</p>
+
+<h2>4. Enrutamiento en MANET</h2>
+<table>
+<tr><th>Familia</th><th>Idea</th><th>Ejemplos</th><th>Ventaja / desventaja</th></tr>
+<tr><td>Proactivos (dirigidos por tabla)</td><td>Cada nodo mantiene rutas a todos los destinos intercambiando periódicamente su tabla.</td><td>DSDV, OLSR (RFC 3626)</td><td>Ruta inmediata / tráfico de control constante aunque no haya datos.</td></tr>
+<tr><td>Reactivos (bajo demanda)</td><td>La ruta se busca solo cuando se necesita, inundando una solicitud.</td><td>AODV (RFC 3561), DSR (RFC 4728)</td><td>Poco control en reposo / latencia del primer paquete.</td></tr>
+<tr><td>Híbridos</td><td>Proactivos dentro de una zona, reactivos fuera.</td><td>ZRP</td><td>Compromiso entre ambos.</td></tr>
+</table>
+<h3>4.1 AODV (Ad hoc On-Demand Distance Vector)</h3>
+<p>Propuesto por Perkins y Royer (1999) y estandarizado en el RFC 3561, AODV funciona así:</p>
+<ol>
+<li><b>Descubrimiento:</b> el origen que no tiene ruta difunde un <b>RREQ</b> (<i>route request</i>) con un identificador. Cada nodo que lo recibe por primera vez registra una <b>ruta inversa</b> hacia el origen (a través del vecino que se lo entregó) y lo retransmite; las copias repetidas se descartan.</li>
+<li><b>Respuesta:</b> el destino (o un nodo con ruta fresca) contesta con un <b>RREP</b> unicast que viaja por la ruta inversa; cada nodo del camino instala la <b>ruta directa</b> hacia el destino.</li>
+<li><b>Mantenimiento:</b> las rutas tienen tiempo de vida y se renuevan con el uso. Si un enlace se rompe, el nodo que lo detecta invalida las rutas afectadas y envía un RERR al origen o intenta una <b>reparación local</b>.</li>
+<li>Cada nodo solo conoce el <b>siguiente salto</b> (vector de distancias), y los números de secuencia evitan bucles.</li>
+</ol>
+
+<h2>5. Capa de enlace inalámbrica</h2>
+<p>En IEEE 802.11 cada trama unicast debe ser confirmada con un ACK; si no llega, se retransmite hasta un número máximo de intentos (7 por omisión para tramas cortas). Si todos fallan, la capa de enlace informa una <b>ruptura de enlace</b> a la capa de red, aunque el vecino siga dentro del alcance (“ruptura falsa” por pérdidas). Los broadcast (como los RREQ) no se confirman. Si cada intento se pierde independientemente con probabilidad p, un salto falla con probabilidad p<sup>k</sup> para k intentos, y un camino de h saltos entrega el paquete con probabilidad (1 − p<sup>k</sup>)<sup>h</sup>.</p>
+
+<h2>6. Modelos de movilidad</h2>
+<p>El modelo más usado para evaluar protocolos MANET es el <b>random waypoint</b> (Johnson y Maltz, 1996): cada nodo elige un destino aleatorio uniforme en el área, se desplaza hacia él a velocidad constante, espera un tiempo de pausa y repite. Camp, Boleng y Davies (2002) muestran que sus propiedades no son triviales: la densidad de nodos se concentra en el centro del área, y la velocidad cambia la frecuencia de rupturas de enlaces. Por eso, en la evaluación, <b>la movilidad puede mejorar la conectividad media</b> de una red dispersa (reúne nodos que estaban aislados) y al mismo tiempo aumentar la tasa de rupturas.</p>
+
+<h2>7. Métricas de desempeño</h2>
+<table>
+<tr><th>Métrica</th><th>Definición</th></tr>
+<tr><td>PDR (<i>Packet Delivery Ratio</i>)</td><td>paquetes de datos entregados / paquetes de datos enviados por las aplicaciones.</td></tr>
+<tr><td>Latencia de extremo a extremo</td><td>tiempo desde que la aplicación envía hasta que el destino recibe (incluye descubrimiento de ruta y retransmisiones).</td></tr>
+<tr><td>Sobrecarga de enrutamiento</td><td>transmisiones de control (RREQ + RREP) por transmisión de datos.</td></tr>
+<tr><td>Energía</td><td>costo acumulado de transmitir y recibir por nodo.</td></tr>
+</table>
+
+<h2>8. Emulación y simulación de eventos discretos</h2>
+<p>Un <b>simulador</b> de redes (ns-3, OMNeT++) modela el comportamiento de los protocolos; un <b>emulador</b> ejecuta el software real sobre un modelo del entorno. Esta tarea combina ambos: las CPU de los nodos se <b>emulan</b> instrucción por instrucción (ejecutan programas binarios reales de cada ISA), mientras el medio de radio y el enrutamiento se <b>simulan</b> con un modelo de tiempo discreto (ticks). Todas las fuentes de aleatoriedad (posiciones, movilidad, pérdidas) se derivan de una semilla, de modo que cada experimento es reproducible.</p>
+
+<h2>9. Referencias</h2>
+<ol class="ref">
+<li>von Neumann, J. (1945). <i>First Draft of a Report on the EDVAC</i>. Moore School of Electrical Engineering, University of Pennsylvania.</li>
+<li>Peña, R. (2006). <i>De Euclides a Java</i>. Nivola. Sec. 2.5, “Cómo funciona un computador”.</li>
+<li>Corson, S. y Macker, J. (1999). <i>Mobile Ad hoc Networking (MANET): Routing Protocol Performance Issues and Evaluation Considerations</i>. RFC 2501, IETF.</li>
+<li>Perkins, C., Belding-Royer, E. y Das, S. (2003). <i>Ad hoc On-Demand Distance Vector (AODV) Routing</i>. RFC 3561, IETF.</li>
+<li>Perkins, C. y Royer, E. (1999). Ad-hoc on-demand distance vector routing. <i>Proc. IEEE WMCSA</i>, 90–100.</li>
+<li>Johnson, D. y Maltz, D. (1996). Dynamic source routing in ad hoc wireless networks. En <i>Mobile Computing</i>, Kluwer, 153–181.</li>
+<li>Camp, T., Boleng, J. y Davies, V. (2002). A survey of mobility models for ad hoc network research. <i>Wireless Communications and Mobile Computing</i>, 2(5), 483–502.</li>
+<li>Clausen, T. y Jacquet, P. (2003). <i>Optimized Link State Routing Protocol (OLSR)</i>. RFC 3626, IETF.</li>
+<li>Cohen, D. (1981). On holy wars and a plea for peace. <i>IEEE Computer</i>, 14(10), 48–54. (Origen de los términos big/little-endian en computación.)</li>
+<li>Eisler, M. (2006). <i>XDR: External Data Representation Standard</i>. RFC 4506, IETF.</li>
+<li>Tanenbaum, A. S. y Austin, T. (2013). <i>Structured Computer Organization</i> (6.ª ed.). Pearson. Caps. 4–5 (ISA, formatos de instrucción, máquinas de pila).</li>
+<li>IEEE Std 802.11-2020. <i>Wireless LAN Medium Access Control (MAC) and Physical Layer (PHY) Specifications</i>.</li>
+</ol>
+</body></html>

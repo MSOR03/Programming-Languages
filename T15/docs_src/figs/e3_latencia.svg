@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" font-family="Arial, Helvetica, sans-serif" font-size="11">
+<line x1="70" x2="640" y1="254.0" y2="254.0" stroke="#e0e0e0"/>
+<text x="64" y="258.0" text-anchor="end" fill="#333333">0</text>
+<line x1="70" x2="640" y1="169.1" y2="169.1" stroke="#e0e0e0"/>
+<text x="64" y="173.1" text-anchor="end" fill="#333333">10</text>
+<line x1="70" x2="640" y1="84.3" y2="84.3" stroke="#e0e0e0"/>
+<text x="64" y="88.3" text-anchor="end" fill="#333333">20</text>
+<line x1="70.0" x2="70.0" y1="254" y2="258" stroke="#000000"/>
+<text x="70.0" y="271" text-anchor="middle" fill="#333333">0</text>
+<line x1="184.0" x2="184.0" y1="254" y2="258" stroke="#000000"/>
+<text x="184.0" y="271" text-anchor="middle" fill="#333333">0,1</text>
+<line x1="298.0" x2="298.0" y1="254" y2="258" stroke="#000000"/>
+<text x="298.0" y="271" text-anchor="middle" fill="#333333">0,2</text>
+<line x1="412.0" x2="412.0" y1="254" y2="258" stroke="#000000"/>
+<text x="412.0" y="271" text-anchor="middle" fill="#333333">0,3</text>
+<line x1="526.0" x2="526.0" y1="254" y2="258" stroke="#000000"/>
+<text x="526.0" y="271" text-anchor="middle" fill="#333333">0,4</text>
+<line x1="640.0" x2="640.0" y1="254" y2="258" stroke="#000000"/>
+<text x="640.0" y="271" text-anchor="middle" fill="#333333">0,5</text>
+<line x1="70" x2="640" y1="254" y2="254" stroke="#000000"/>
+<text x="355.0" y="294" text-anchor="middle" fill="#333333">probabilidad de pérdida por transmisión p</text>
+<text transform="translate(14 136.0) rotate(-90)" text-anchor="middle" fill="#333333">latencia de extremo a extremo (ticks)</text>
+<path d="M70.0,218.9 L184.0,213.2 L298.0,202.1 L412.0,184.7 L526.0,161.6 L640.0,18.0" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="70.0" cy="218.9" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="184.0" cy="213.2" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="298.0" cy="202.1" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="412.0" cy="184.7" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="526.0" cy="161.6" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="640.0" cy="18.0" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+</svg>

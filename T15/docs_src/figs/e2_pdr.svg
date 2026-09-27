@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 300" width="660" height="300" font-family="Arial, Helvetica, sans-serif" font-size="11">
+<line x1="70" x2="510" y1="254.0" y2="254.0" stroke="#e0e0e0"/>
+<text x="64" y="258.0" text-anchor="end" fill="#333333">0</text>
+<line x1="70" x2="510" y1="197.8" y2="197.8" stroke="#e0e0e0"/>
+<text x="64" y="201.8" text-anchor="end" fill="#333333">0,25</text>
+<line x1="70" x2="510" y1="141.6" y2="141.6" stroke="#e0e0e0"/>
+<text x="64" y="145.6" text-anchor="end" fill="#333333">0,5</text>
+<line x1="70" x2="510" y1="85.4" y2="85.4" stroke="#e0e0e0"/>
+<text x="64" y="89.4" text-anchor="end" fill="#333333">0,75</text>
+<line x1="70" x2="510" y1="29.2" y2="29.2" stroke="#e0e0e0"/>
+<text x="64" y="33.2" text-anchor="end" fill="#333333">1</text>
+<line x1="70.0" x2="70.0" y1="254" y2="258" stroke="#000000"/>
+<text x="70.0" y="271" text-anchor="middle" fill="#333333">0</text>
+<line x1="180.0" x2="180.0" y1="254" y2="258" stroke="#000000"/>
+<text x="180.0" y="271" text-anchor="middle" fill="#333333">5</text>
+<line x1="290.0" x2="290.0" y1="254" y2="258" stroke="#000000"/>
+<text x="290.0" y="271" text-anchor="middle" fill="#333333">10</text>
+<line x1="400.0" x2="400.0" y1="254" y2="258" stroke="#000000"/>
+<text x="400.0" y="271" text-anchor="middle" fill="#333333">15</text>
+<line x1="510.0" x2="510.0" y1="254" y2="258" stroke="#000000"/>
+<text x="510.0" y="271" text-anchor="middle" fill="#333333">20</text>
+<line x1="70" x2="510" y1="254" y2="254" stroke="#000000"/>
+<text x="290.0" y="294" text-anchor="middle" fill="#333333">velocidad máxima de los nodos (m/s)</text>
+<text transform="translate(14 136.0) rotate(-90)" text-anchor="middle" fill="#333333">fracción entregada</text>
+<path d="M70.0,164.1 L114.0,85.4 L180.0,57.9 L290.0,49.8 L510.0,74.3" fill="none" stroke="#1f77b4" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="70.0" cy="164.1" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="114.0" cy="85.4" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="180.0" cy="57.9" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="290.0" cy="49.8" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="510.0" cy="74.3" r="4" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="520" cy="74.3" r="4" fill="#1f77b4"/>
+<text x="528" y="78.3" fill="#000000">PDR de la red</text>
+<path d="M70.0,164.1 L114.0,112.4 L180.0,77.6 L290.0,66.3 L510.0,103.4" fill="none" stroke="#ff7f0e" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="70.0" cy="164.1" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="114.0" cy="112.4" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="180.0" cy="77.6" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="290.0" cy="66.3" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="510.0" cy="103.4" r="4" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="520" cy="103.4" r="4" fill="#ff7f0e"/>
+<text x="528" y="107.4" fill="#000000">PING respondidos</text>
+</svg>

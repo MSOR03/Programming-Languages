@@ -1,0 +1,58 @@
+; =============================================================================
+;  ANDES-64 - cliente PING
+;  Entrada: destino  K (cantidad de pings)  ESPERA (sondeos)  PAUSA (iteraciones)
+;  Envia PING(1..K) al destino; tras cada uno sondea la NIC hasta ESPERA veces
+;  esperando el PONG con el mismo numero. Al final imprime cuantos volvieron.
+; =============================================================================
+            .org  0x000
+inicio:     IN    R4, D               ; destino
+            IN    R8, D               ; K
+            IN    R9, D               ; ESPERA
+            IN    R12, D              ; PAUSA
+            LEA   R10, buf
+            MOVI  R5, 1               ; secuencia
+            MOVI  R6, 0               ; PONG recibidos
+ciclo:      MOVI  R11, 0
+            MOV   R0, R4
+            CALL  PONER_BYTE          ; destino
+            MOVI  R11, 1
+            MOVI  R0, 3
+            CALL  PONER_BYTE          ; tipo PING
+            MOV   R2, R5
+            CALL  ESCRIBIR_VALOR
+            MOVI  R0, 6
+            NSEND R0, buf
+            MOV   R7, R9
+esperar:    NRECV R0, buf
+            CMPI  R0, 0
+            JNZ   llego
+            DEC   R7
+            JNZ   esperar
+            JMP   pausa               ; se agoto la espera
+llego:      MOVI  R11, 1
+            LDRB  R1, R10, R11
+            CMPI  R1, 4
+            JNZ   esperar
+            CALL  LEER_VALOR
+            CMP   R2, R5
+            JNZ   esperar             ; PONG atrasado de otro ping
+            INC   R6
+pausa:      MOV   R7, R12
+_p:         DEC   R7
+            JNZ   _p
+            INC   R5
+            CMP   R5, R8
+            JLE   ciclo
+            LEA   R0, t_res
+            CALL  IMPRIMIR
+            OUT   R6, D
+            MOVI  R0, '/'
+            OUT   R0, C
+            OUT   R8, D
+            MOVI  R0, 10
+            OUT   R0, C
+            HLT
+
+t_res:      .string "PONG recibidos: "
+buf:        .space 16
+            .include "pdu.a64"

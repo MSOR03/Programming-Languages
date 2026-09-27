@@ -1,0 +1,68 @@
+; =============================================================================
+;  ANDES-64 - coordinador de un calculo distribuido
+;  Entrada: m, y luego m parejas (nodo, n).
+;  Envia SUMA(n) a cada nodo, espera los m RESULTADOS (en el orden en que
+;  lleguen), los imprime y muestra el total.
+; =============================================================================
+            .org  0x000
+inicio:     IN    R8, D               ; m
+            LEA   R10, buf
+            MOVI  R9, 0
+enviar:     CMP   R9, R8
+            JGE   recibir
+            MOVI  R11, 0
+            IN    R0, D               ; nodo
+            CALL  PONER_BYTE
+            MOVI  R11, 1
+            MOVI  R0, 1               ; tipo SUMA
+            CALL  PONER_BYTE
+            IN    R2, D               ; n
+            CALL  ESCRIBIR_VALOR
+            MOVI  R0, 6
+            NSEND R0, buf
+            INC   R9
+            JMP   enviar
+recibir:    MOVI  R9, 0               ; respuestas recibidas
+            MOVI  R3, 0               ; total
+            MOVI  R7, 0xFFFF          ; sondeos maximos
+bucle:      CMP   R9, R8
+            JGE   fin
+            NRECV R0, buf
+            CMPI  R0, 0
+            JNZ   llego
+            DEC   R7
+            JNZ   bucle
+            LEA   R0, t_tiempo
+            CALL  IMPRIMIR
+            JMP   fin
+llego:      MOVI  R11, 1
+            LDRB  R1, R10, R11
+            CMPI  R1, 2
+            JNZ   bucle
+            LEA   R0, t_nodo
+            CALL  IMPRIMIR
+            MOVI  R11, 0
+            LDRB  R1, R10, R11
+            OUT   R1, D               ; nodo que respondio
+            LEA   R0, t_flecha
+            CALL  IMPRIMIR
+            CALL  LEER_VALOR
+            OUT   R2, D
+            MOVI  R0, 10
+            OUT   R0, C
+            ADD   R3, R3, R2
+            INC   R9
+            JMP   bucle
+fin:        LEA   R0, t_total
+            CALL  IMPRIMIR
+            OUT   R3, D
+            MOVI  R0, 10
+            OUT   R0, C
+            HLT
+
+t_nodo:     .string "resultado del nodo #"
+t_flecha:   .string " = "
+t_total:    .string "total = "
+t_tiempo:   .string "tiempo agotado\n"
+buf:        .space 16
+            .include "pdu.a64"

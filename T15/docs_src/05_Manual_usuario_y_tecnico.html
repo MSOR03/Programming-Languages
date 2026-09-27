@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Manual de usuario y técnico</title>
+<link rel="stylesheet" href="../estilo.css"></head><body>
+<!--PORTADA|Tarea 15 — Manual de usuario y manual técnico|Emulador de una MANET heterogénea de computadores von Neumann|Entregable (e) · Tarea obligatoria automatizada · Entrega: 28 de septiembre de 2026-->
+{{CABECERA}}
+
+<h1>Parte I — Manual de usuario</h1>
+<h2>1. Requisitos</h2>
+<ul>
+<li>Python 3.8 o superior con la biblioteca estándar (incluye tkinter para el visor). No se instala nada más.</li>
+<li>Todos los comandos se ejecutan dentro de la carpeta <code>codigo/</code>.</li>
+</ul>
+<pre>codigo/
+  manet.py            programa principal (escenarios, barrido de experimentos, visor)
+  red.py              medio de radio, enlace, AODV, movilidad, métricas
+  arquitecturas.py    interfaz común de las tres CPU
+  andes64/            CPU ANDES-64 + ensamblador + cargador
+  orinoco32.py        CPU ORINOCO-32 + ensamblador
+  caribe16.py         CPU CARIBE-16 + ensamblador
+  visor.py            animación gráfica (tkinter)
+  programas/andes-64/*.a64   programas en ensamblador ANDES-64
+  programas/orinoco-32/*.o32 programas en ensamblador ORINOCO-32
+  programas/caribe-16/*.c16  programas en ensamblador CARIBE-16
+  resultados/resultados.json datos de los experimentos</pre>
+
+<h2>2. Ejecutar un escenario</h2>
+<pre>python manet.py e1 [-v]                          cálculo distribuido multi-salto
+python manet.py e2 [--velocidad 5] [--semilla 1] [-v]   movilidad
+python manet.py e3 [--perdida 0.2] [--semilla 1] [-v]   enlaces con pérdidas
+python manet.py e4 [--n 300] [-v]                tiempo de servicio de cada fabricante</pre>
+<p>Con <code>-v</code> se imprime la bitácora completa de eventos (envíos, RREQ, RREP, rupturas, entregas con su número de saltos y latencia). Al final se muestran un mapa ASCII de las posiciones, la salida del programa del nodo #1 y las métricas.</p>
+<pre>&gt; python manet.py e1
+...
+=== salida del programa del nodo #1 ===
+resultado del nodo #2 = 55
+resultado del nodo #3 = 500500
+total = 500555
+
+=== métricas de la red ===
+  ticks            4403
+  datos_app        4
+  entregados       4
+  pdr              1.0
+  latencia_media   4.0
+  ...
+=== tiempo de servicio de SUMA ===
+  ORINOCO-32#2     25 ticks  resultado=55
+  CARIBE-16#3    4345 ticks  resultado=500500</pre>
+<table>
+<tr><th>Métrica</th><th>Significado</th></tr>
+<tr><td>ticks</td><td>Duración simulada (1 tick = 10 ms).</td></tr>
+<tr><td>datos_app / entregados / pdr</td><td>Paquetes de datos enviados por las aplicaciones, entregados a su destino, y su cociente.</td></tr>
+<tr><td>latencia_media / latencia_max</td><td>Ticks entre el envío y la entrega (incluye el descubrimiento de ruta).</td></tr>
+<tr><td>tx_datos / tx_rreq / tx_rrep</td><td>Transmisiones de radio de cada clase (un paquete de 3 saltos cuenta 3).</td></tr>
+<tr><td>retransmisiones, perdidas_radio</td><td>Reintentos de la capa de enlace y transmisiones perdidas.</td></tr>
+<tr><td>rupturas, descubrimientos, descartados</td><td>Enlaces declarados rotos, RREQ originados, paquetes descartados por no hallar ruta.</td></tr>
+<tr><td>sobrecarga</td><td>(tx_rreq + tx_rrep) / tx_datos.</td></tr>
+<tr><td>energia, instrucciones</td><td>Por nodo: energía gastada (1 por transmisión, 0,5 por recepción) e instrucciones ejecutadas por su CPU.</td></tr>
+</table>
+
+<h2>3. Visor gráfico</h2>
+<pre>python manet.py visor e2 --velocidad 10</pre>
+<figure><img src="../figs/visor.png" style="max-width:100%"><figcaption>Figura 1. Visor: color por fabricante (azul ANDES-64, naranja ORINOCO-32, verde CARIBE-16), círculos de alcance, enlaces (gris), rutas activas (flechas violeta) y paquetes en vuelo (cuadros rojo DATOS, gris RREQ, violeta RREP). A la derecha, la bitácora y las métricas en vivo. La barra espaciadora pausa.</figcaption></figure>
+
+<h2>4. Reproducir todos los experimentos</h2>
+<pre>python manet.py barrido          # ≈ 10 s; escribe resultados/resultados.json</pre>
+<p>Ejecuta e1; e2 con v ∈ {0, 2, 5, 10, 20} m/s y e3 con p ∈ {0; 0,1; …; 0,5}, cada uno con las semillas 1 a 5; y e4 con n ∈ {10, 100, 300, 1000}. Luego <code>python docs_src/construir_pdfs.py</code> (desde la carpeta de la tarea) regenera las gráficas y el PDF único de la entrega.</p>
+
+<h2>5. Programar los nodos</h2>
+<h3>5.1 ANDES-64 (<code>.a64</code>)</h3>
+<pre>            .org  0x000
+inicio:     LEA   R10, buf
+            MOVI  R11, 0
+            MOVI  R0, 3            ; destino: nodo #3
+            CALL  PONER_BYTE
+            MOVI  R11, 1
+            MOVI  R0, 3            ; tipo PING
+            CALL  PONER_BYTE
+            MOVI  R2, 42
+            CALL  ESCRIBIR_VALOR   ; valor en orden de red
+            MOVI  R0, 6
+            NSEND R0, buf          ; transmite 6 bytes
+espera:     NRECV R0, buf          ; R0 = bytes recibidos
+            CMPI  R0, 0
+            JZ    espera
+            HLT
+buf:        .space 16
+            .include "pdu.a64"</pre>
+<h3>5.2 ORINOCO-32 (<code>.o32</code>)</h3>
+<p>Sintaxis en minúsculas, un token por instrucción, operandos a continuación: <code>push 1000</code>, <code>pushb -1</code>, <code>jz etiqueta</code>, <code>call rutina</code>. Etiquetas terminadas en dos puntos. Directivas <code>.org</code>, <code>.word</code>, <code>.bytes</code>. La ejecución empieza en la etiqueta <code>inicio</code> (o en 0). Recuerde que la memoria es little-endian: use <code>bswap</code> al leer o escribir enteros de la PDU.</p>
+<h3>5.3 CARIBE-16 (<code>.c16</code>)</h3>
+<p>Una instrucción por línea: <code>LDA #5</code> (inmediato 0–1023), <code>ADD var</code> (directo), <code>LDAX tabla</code> (indexado por X), <code>JSR sub</code> / <code>JMI sub</code> (subrutinas; la primera palabra de <code>sub</code> se reserva con <code>WORD 0</code>). Directivas <code>ORG</code>, <code>WORD</code>, <code>SPACE</code>, <code>EQU</code>. Las expresiones admiten <code>etiqueta+k</code>.</p>
+<h3>5.4 Crear un escenario nuevo</h3>
+<pre>def e5(verboso=False, **_):
+    red = Red(ancho=300, alto=100, p_perdida=0.1, semilla=7, verboso=verboso)
+    red.agregar(Nodo(1, 'ANDES-64', 'cliente_ping', 20, 50, entradas=[3, 10, 160, 200]))
+    red.agregar(Nodo(2, 'CARIBE-16', 'servidor', 110, 50))
+    red.agregar(Nodo(3, 'ORINOCO-32', 'servidor', 200, 50, velocidad=3, pausa=50))
+    return red, 1, 20000          # red, nodo principal, límite de ticks
+ESCENARIOS['e5'] = e5</pre>
+<p>Parámetros de <code>cliente_ping</code>: destino, cantidad de pings, sondeos de espera por PONG, iteraciones de pausa. De <code>coordinador</code>: m y luego m parejas (nodo, n).</p>
+
+<h1 class="salto">Parte II — Manual técnico</h1>
+<h2>6. Interfaz común de las CPU</h2>
+<pre>class CPU:                       # ANDES-64 (adaptador), Orinoco32, Caribe16
+    FABRICANTE, MODELO, PALABRA
+    cargar_fuente(ruta)          # ensambla con SU ensamblador y carga el binario
+    paso() -&gt; bool               # ejecuta UNA instrucción de su ISA
+    detenida, instrucciones, salida
+    enviar                       # función asignada por la red: recibe los bytes de la NIC
+    rx                           # deque de paquetes entregados por la red</pre>
+<p>La red solo usa esa interfaz; agregar un cuarto fabricante consiste en escribir su clase y registrarla en <code>arquitecturas.MODELOS</code>, <code>EXTENSION</code> e <code>IPC</code>.</p>
+
+<h2>7. Flujo de un mensaje</h2>
+<ol>
+<li>El programa ejecuta su instrucción de envío (NSEND / send / NSND). La CPU entrega los bytes a <code>enviar</code> → <code>Red._desde_nic(nodo, datos)</code>.</li>
+<li>La red crea un <code>Paquete('DATOS')</code> con origen, destino (byte 0) y datos (bytes 1…), registra el envío y llama a <code>_enviar_datos</code>.</li>
+<li>Sin ruta: el paquete queda en <code>nodo.pendientes</code> y se inicia <code>_descubrir</code> (RREQ). Con ruta: <code>_transmitir</code> intenta hasta 3 veces; si tiene éxito, el paquete se agrega a <code>en_vuelo</code> con llegada en t + 1.</li>
+<li>En el tick siguiente, <code>_recibir</code> en el vecino reenvía o, si es el destino, agrega <code>[origen] + datos</code> a <code>cpu.rx</code>.</li>
+<li>El programa del destino lo lee con su instrucción de recepción.</li>
+</ol>
+
+<h2>8. Detalles de implementación</h2>
+<ul>
+<li><b>Determinismo:</b> toda la aleatoriedad usa <code>Red.rnd = random.Random(semilla)</code>; el orden de procesamiento de nodos y paquetes es fijo, por lo que una misma semilla produce exactamente la misma bitácora.</li>
+<li><b>Tiempo:</b> <code>TICK_S = 0.01</code>; el movimiento por tick es v·0,01 m.</li>
+<li><b>Errores de CPU:</b> si una CPU falla (opcode inválido, pila vacía…), el nodo se marca con <code>error</code>, deja de ejecutar y sigue funcionando como enrutador (la NIC y la capa de red no dependen de la CPU).</li>
+<li><b>Parámetros</b> (en <code>red.py</code>): <code>REINTENTOS_MAC = 3</code>, <code>TTL = 12</code>, <code>VIDA_RUTA = 300</code>, <code>ESPERA_RREP = 40</code>, <code>MAX_RREQ = 3</code>; relojes en <code>arquitecturas.IPC</code>.</li>
+<li><b>Reutilización:</b> <code>andes64/</code> es una copia sin cambios del emulador de la Tarea 17; su NIC ya tenía el atributo <code>enlace</code> para conectarse a una red.</li>
+</ul>
+
+<h2>9. Solución de problemas</h2>
+<table>
+<tr><th>Síntoma</th><th>Causa probable</th></tr>
+<tr><td><code>ErrorOrinoco: pila de datos vacía</code></td><td>Una secuencia del programa .o32 consume más valores de los que apila (revise los comentarios de efecto de pila).</td></tr>
+<tr><td><code>operando fuera de rango (0..1023)</code></td><td>En CARIBE-16 los inmediatos son de 10 bits sin signo.</td></tr>
+<tr><td>El cliente imprime 0/K</td><td>Destino inalcanzable (red particionada); pruebe otra semilla o más velocidad, y revise con <code>-v</code>.</td></tr>
+<tr><td>El visor no abre</td><td>La instalación de Python no incluye tkinter (en Linux: paquete <code>python3-tk</code>).</td></tr>
+</table>
+</body></html>

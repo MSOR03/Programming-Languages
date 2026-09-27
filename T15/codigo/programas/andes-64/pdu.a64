@@ -1,0 +1,53 @@
+; =============================================================================
+;  ANDES-64: rutinas de apoyo para la PDU canonica de la MANET
+;     byte 0 destino/origen | byte 1 tipo | bytes 2..5 entero de 32 bits big-endian
+;  R10 = direccion base del bufer de la PDU
+; =============================================================================
+
+; LEER_VALOR: R2 <- entero de 32 bits con signo (orden de red) de R10+2..5
+LEER_VALOR: PUSH  R0
+            PUSH  R11
+            MOVI  R2, 0
+            MOVI  R11, 2
+_lv_b:      LDRB  R0, R10, R11
+            SHLI  R2, 8
+            OR    R2, R2, R0
+            INC   R11
+            CMPI  R11, 6
+            JL    _lv_b
+            SHLI  R2, 32              ; extension de signo de 32 a 64 bits
+            SARI  R2, 32
+            POP   R11
+            POP   R0
+            RET
+
+; ESCRIBIR_VALOR: escribe los 32 bits bajos de R2 en R10+2..5 (big-endian)
+ESCRIBIR_VALOR: PUSH R2
+            PUSH  R11
+            MOVI  R11, 5
+_ev_b:      STRB  R2, R10, R11
+            SHRI  R2, 8
+            DEC   R11
+            CMPI  R11, 2
+            JGE   _ev_b
+            POP   R11
+            POP   R2
+            RET
+
+; PONER_BYTE: M8[R10 + R11] <- R0
+PONER_BYTE: STRB  R0, R10, R11
+            RET
+
+; IMPRIMIR: escribe la cadena terminada en 0 que empieza en R0
+IMPRIMIR:   PUSH  R1
+            PUSH  R2
+            MOVI  R2, 0
+_imp_b:     LDRB  R1, R0, R2
+            CMPI  R1, 0
+            JZ    _imp_f
+            OUT   R1, C
+            INC   R2
+            JMP   _imp_b
+_imp_f:     POP   R2
+            POP   R1
+            RET

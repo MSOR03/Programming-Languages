@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 562" width="620" height="562" font-family="Arial, Helvetica, sans-serif" font-size="10">
+<circle cx="295.7" cy="295.7" r="142.9" fill="none" stroke="#e7e6e2"/>
+<circle cx="381.4" cy="295.7" r="142.9" fill="none" stroke="#e7e6e2"/>
+<circle cx="224.3" cy="238.6" r="142.9" fill="none" stroke="#e7e6e2"/>
+<circle cx="238.6" cy="367.1" r="142.9" fill="none" stroke="#e7e6e2"/>
+<line x1="295.7" y1="295.7" x2="381.4" y2="295.7" stroke="#8d8d8d" stroke-width="1.5"/>
+<line x1="295.7" y1="295.7" x2="224.3" y2="238.6" stroke="#8d8d8d" stroke-width="1.5"/>
+<line x1="295.7" y1="295.7" x2="238.6" y2="367.1" stroke="#8d8d8d" stroke-width="1.5"/>
+<line x1="224.3" y1="238.6" x2="238.6" y2="367.1" stroke="#8d8d8d" stroke-width="1.5"/>
+<circle cx="295.7" cy="295.7" r="12" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<text x="295.7" y="299.7" text-anchor="middle" fill="#ffffff" font-weight="bold">1</text>
+<text x="295.7" y="321.7" text-anchor="middle" fill="#0b0b0b">ANDES-64</text>
+<circle cx="381.4" cy="295.7" r="12" fill="#ff7f0e" stroke="#fcfcfb" stroke-width="2"/>
+<text x="381.4" y="299.7" text-anchor="middle" fill="#ffffff" font-weight="bold">2</text>
+<text x="381.4" y="321.7" text-anchor="middle" fill="#0b0b0b">ORINOCO-32</text>
+<circle cx="224.3" cy="238.6" r="12" fill="#2ca02c" stroke="#fcfcfb" stroke-width="2"/>
+<text x="224.3" y="242.6" text-anchor="middle" fill="#ffffff" font-weight="bold">3</text>
+<text x="224.3" y="264.6" text-anchor="middle" fill="#0b0b0b">CARIBE-16</text>
+<circle cx="238.6" cy="367.1" r="12" fill="#1f77b4" stroke="#fcfcfb" stroke-width="2"/>
+<text x="238.6" y="371.1" text-anchor="middle" fill="#ffffff" font-weight="bold">4</text>
+<text x="238.6" y="393.1" text-anchor="middle" fill="#0b0b0b">ANDES-64</text>
+</svg>

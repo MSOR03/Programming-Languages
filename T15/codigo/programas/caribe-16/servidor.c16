@@ -1,0 +1,63 @@
+; =============================================================================
+;  CARIBE-16 - servidor de la MANET (ensamblador de la CCC)
+;    PING(v) -> PONG(v)       SUMA(n) -> RESULTADO(1 + ... + n)
+;  La NIC de 8 bits deja un byte por palabra en el bufer.
+;  Como la palabra es de 16 bits y 1+...+n puede superar 65535, la suma se
+;  lleva en DOBLE PRECISION (hi:lo) propagando el acarreo con ADC.
+; =============================================================================
+inicio:
+espera:     NRCV  buf               ; ACC = bytes recibidos
+            JZ    espera
+            LDA   buf+1             ; tipo
+            CMP   #3
+            JZ    ping
+            CMP   #1
+            JNZ   espera
+            LDA   buf+4             ; n = buf[4]*256 + buf[5]  (16 bits)
+            SHL   #8
+            OR    buf+5
+            STA   n
+            LDA   #0
+            STA   hi
+            STA   lo
+            LDA   #1
+            STA   i
+bucle:      LDA   n                 ; mientras i <= n
+            SUB   i
+            JC    fin
+            LDA   lo                ; (hi:lo) += i
+            ADD   i
+            STA   lo
+            LDA   hi
+            ADC   #0
+            STA   hi
+            LDA   i
+            ADD   #1
+            STA   i
+            JMP   bucle
+fin:        LDA   hi                ; resultado de 32 bits en orden de red
+            SHR   #8
+            STA   buf+2
+            LDA   hi
+            AND   #255
+            STA   buf+3
+            LDA   lo
+            SHR   #8
+            STA   buf+4
+            LDA   lo
+            AND   #255
+            STA   buf+5
+            LDA   #2
+            STA   buf+1
+            JMP   enviar
+ping:       LDA   #4                ; PONG: se devuelve el mismo valor
+            STA   buf+1
+enviar:     LDA   #6
+            NSND  buf               ; buf[0] (origen) pasa a ser el destino
+            JMP   espera
+
+n:          WORD  0
+i:          WORD  0
+hi:         WORD  0
+lo:         WORD  0
+buf:        SPACE 16

@@ -1,0 +1,29 @@
+; =============================================================================
+;  ORINOCO-32 - servidor de la MANET (lenguaje de pila de Orinoco Systems)
+;    PING(v) -> PONG(v)       SUMA(n) -> RESULTADO(1 + ... + n)
+;  La memoria es little-endian: los enteros de la PDU (big-endian, orden de
+;  red) se convierten con bswap al leerlos y al escribirlos.
+; =============================================================================
+inicio:
+espera:     push buf recv jz espera         ; ( -- )  sondea la NIC
+            push buf pushb 1 add loadb      ; ( tipo )
+            dup pushb 3 eq jnz es_ping
+            pushb 1 eq jz espera            ; solo se atiende SUMA
+            call leer                       ; ( n )
+            pushb 0 swap                    ; ( suma n )
+bucle:      dup jz fin_suma
+            dup rot add swap                ; ( suma+n n )
+            pushb 1 sub                     ; ( suma+n n-1 )
+            jmp bucle
+fin_suma:   drop pushb 2                    ; ( suma 2 )
+            jmp responder
+es_ping:    drop call leer pushb 4          ; ( v 4 )
+responder:  push buf pushb 1 add storeb     ; buf[1] <- tipo      ( valor )
+            bswap push buf pushb 2 add store ; buf[2..5] <- valor en orden de red
+            push buf pushb 6 send           ; buf[0] ya es el destino (el origen)
+            jmp espera
+
+leer:       push buf pushb 2 add load bswap ; ( -- n )
+            ret
+
+buf:        .bytes 16

@@ -1,0 +1,4 @@
+# Un autor por línea (nombres y apellidos tal como aparecen en el SIA).
+# Para regenerar el PDF:  python docs_src/construir_pdfs.py
+Rodríguez Rodríguez Daniel Santiago
+Olarte Ramírez Maicol Sebastián

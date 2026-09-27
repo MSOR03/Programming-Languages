@@ -1,0 +1,1999 @@
+{
+ "e1": {
+  "salida": "resultado del nodo #2 = 55\nresultado del nodo #3 = 500500\ntotal = 500555\n",
+  "resumen": {
+   "ticks": 4403,
+   "datos_app": 4,
+   "entregados": 4,
+   "pdr": 1.0,
+   "latencia_media": 4.0,
+   "latencia_max": 6,
+   "tx_datos": 6,
+   "tx_rreq": 5,
+   "tx_rrep": 5,
+   "retransmisiones": 0,
+   "rupturas": 0,
+   "descubrimientos": 3,
+   "descartados": 0,
+   "perdidas_radio": 0,
+   "sobrecarga": 1.6666666666666667,
+   "energia": {
+    "ANDES-64#1": 8.0,
+    "ORINOCO-32#2": 12.0,
+    "CARIBE-16#3": 5.0
+   },
+   "instrucciones": {
+    "ANDES-64#1": 35221,
+    "ORINOCO-32#2": 22015,
+    "CARIBE-16#3": 13209
+   }
+  },
+  "eventos": [
+   "[t=    0] escenario e1: Cadena fija 1-2-3: cálculo distribuido multi-salto entre los tres fabricantes.",
+   "[t=    0]   ANDES-64#1   Industrias Andinas de Cómputo (IAC)    programa=coordinador   pos=(10, 30) 8 instr/tick",
+   "[t=    0]   ORINOCO-32#2 Orinoco Systems S.A.                   programa=servidor      pos=(100, 30) 5 instr/tick",
+   "[t=    0]   CARIBE-16#3  Compañía Caribeña de Calculadoras (CCC) programa=servidor      pos=(190, 30) 3 instr/tick",
+   "[t=    6] ANDES-64#1: envía SUMA(10) a #2",
+   "[t=    6] ANDES-64#1: RREQ #1 buscando ruta a #2 (intento 1)",
+   "[t=    7] ORINOCO-32#2: RREQ de #1 llegó en 1 salto(s); responde RREP",
+   "[t=    8] ANDES-64#1: ruta a #2 establecida vía #2 (1 saltos)",
+   "[t=    9] ORINOCO-32#2: recibe SUMA(10) de #1  [1 salto(s), 3 ticks]",
+   "[t=   12] ANDES-64#1: envía SUMA(1000) a #3",
+   "[t=   12] ANDES-64#1: RREQ #2 buscando ruta a #3 (intento 1)",
+   "[t=   14] CARIBE-16#3: RREQ de #1 llegó en 2 salto(s); responde RREP",
+   "[t=   16] ANDES-64#1: ruta a #3 establecida vía #2 (2 saltos)",
+   "[t=   18] CARIBE-16#3: recibe SUMA(1000) de #1  [2 salto(s), 6 ticks]",
+   "[t=   34] ORINOCO-32#2: envía RESULTADO(55) a #1",
+   "[t=   35] ANDES-64#1: recibe RESULTADO(55) de #2  [1 salto(s), 1 ticks]",
+   "[t= 4363] CARIBE-16#3: envía RESULTADO(500500) a #1",
+   "[t= 4363] CARIBE-16#3: RREQ #1 buscando ruta a #1 (intento 1)",
+   "[t= 4365] ANDES-64#1: RREQ de #3 llegó en 2 salto(s); responde RREP",
+   "[t= 4367] CARIBE-16#3: ruta a #1 establecida vía #2 (2 saltos)",
+   "[t= 4369] ANDES-64#1: recibe RESULTADO(500500) de #3  [2 salto(s), 6 ticks]",
+   "[t= 4403] ANDES-64#1: la CPU ejecutó HLT"
+  ]
+ },
+ "e2": [
+  {
+   "velocidad": 0.0,
+   "corridas": [
+    {
+     "ticks": 6246,
+     "datos_app": 40,
+     "entregados": 0,
+     "pdr": 0.0,
+     "latencia_media": 0.0,
+     "latencia_max": 0,
+     "tx_datos": 0,
+     "tx_rreq": 120,
+     "tx_rrep": 0,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 120,
+     "descartados": 40,
+     "perdidas_radio": 0,
+     "sobrecarga": 120.0,
+     "energia": {
+      "ANDES-64#1": 120.0,
+      "ORINOCO-32#2": 0.0,
+      "CARIBE-16#3": 0.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 0.0,
+      "CARIBE-16#6": 0.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 49961,
+      "ORINOCO-32#2": 31230,
+      "CARIBE-16#3": 18738,
+      "ANDES-64#4": 49968,
+      "ORINOCO-32#5": 31230,
+      "CARIBE-16#6": 18738
+     },
+     "salida": "PONG recibidos: 0/40"
+    },
+    {
+     "ticks": 2879,
+     "datos_app": 80,
+     "entregados": 80,
+     "pdr": 1.0,
+     "latencia_media": 4.1,
+     "latencia_max": 12,
+     "tx_datos": 320,
+     "tx_rreq": 4,
+     "tx_rrep": 4,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.025,
+     "energia": {
+      "ANDES-64#1": 62.0,
+      "ORINOCO-32#2": 0.0,
+      "CARIBE-16#3": 123.5,
+      "ANDES-64#4": 123.0,
+      "ORINOCO-32#5": 123.5,
+      "CARIBE-16#6": 61.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 23026,
+      "ORINOCO-32#2": 14395,
+      "CARIBE-16#3": 8637,
+      "ANDES-64#4": 23032,
+      "ORINOCO-32#5": 14395,
+      "CARIBE-16#6": 8637
+     },
+     "salida": "PONG recibidos: 40/40"
+    },
+    {
+     "ticks": 6246,
+     "datos_app": 40,
+     "entregados": 0,
+     "pdr": 0.0,
+     "latencia_media": 0.0,
+     "latencia_max": 0,
+     "tx_datos": 0,
+     "tx_rreq": 360,
+     "tx_rrep": 0,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 120,
+     "descartados": 40,
+     "perdidas_radio": 0,
+     "sobrecarga": 360.0,
+     "energia": {
+      "ANDES-64#1": 240.0,
+      "ORINOCO-32#2": 180.0,
+      "CARIBE-16#3": 0.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 180.0,
+      "CARIBE-16#6": 0.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 49961,
+      "ORINOCO-32#2": 31230,
+      "CARIBE-16#3": 18738,
+      "ANDES-64#4": 49968,
+      "ORINOCO-32#5": 31230,
+      "CARIBE-16#6": 18738
+     },
+     "salida": "PONG recibidos: 0/40"
+    },
+    {
+     "ticks": 2737,
+     "datos_app": 80,
+     "entregados": 80,
+     "pdr": 1.0,
+     "latencia_media": 2.05,
+     "latencia_max": 6,
+     "tx_datos": 160,
+     "tx_rreq": 2,
+     "tx_rrep": 2,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.025,
+     "energia": {
+      "ANDES-64#1": 62.0,
+      "ORINOCO-32#2": 123.0,
+      "CARIBE-16#3": 0.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 0.0,
+      "CARIBE-16#6": 61.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 21891,
+      "ORINOCO-32#2": 13685,
+      "CARIBE-16#3": 8211,
+      "ANDES-64#4": 21896,
+      "ORINOCO-32#5": 13685,
+      "CARIBE-16#6": 8211
+     },
+     "salida": "PONG recibidos: 40/40"
+    },
+    {
+     "ticks": 6246,
+     "datos_app": 40,
+     "entregados": 0,
+     "pdr": 0.0,
+     "latencia_media": 0.0,
+     "latencia_max": 0,
+     "tx_datos": 0,
+     "tx_rreq": 480,
+     "tx_rrep": 0,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 120,
+     "descartados": 40,
+     "perdidas_radio": 0,
+     "sobrecarga": 480.0,
+     "energia": {
+      "ANDES-64#1": 240.0,
+      "ORINOCO-32#2": 300.0,
+      "CARIBE-16#3": 240.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 180.0,
+      "CARIBE-16#6": 0.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 49961,
+      "ORINOCO-32#2": 31230,
+      "CARIBE-16#3": 18738,
+      "ANDES-64#4": 49968,
+      "ORINOCO-32#5": 31230,
+      "CARIBE-16#6": 18738
+     },
+     "salida": "PONG recibidos: 0/40"
+    }
+   ]
+  },
+  {
+   "velocidad": 2.0,
+   "corridas": [
+    {
+     "ticks": 3664,
+     "datos_app": 70,
+     "entregados": 60,
+     "pdr": 0.8571428571428571,
+     "latencia_media": 3.7666666666666666,
+     "latencia_max": 49,
+     "tx_datos": 180,
+     "tx_rreq": 35,
+     "tx_rrep": 3,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 32,
+     "descartados": 10,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.2111111111111111,
+     "energia": {
+      "ANDES-64#1": 78.0,
+      "ORINOCO-32#2": 93.0,
+      "CARIBE-16#3": 94.0,
+      "ANDES-64#4": 1.5,
+      "ORINOCO-32#5": 0.0,
+      "CARIBE-16#6": 46.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 29306,
+      "ORINOCO-32#2": 18320,
+      "CARIBE-16#3": 10992,
+      "ANDES-64#4": 29312,
+      "ORINOCO-32#5": 18320,
+      "CARIBE-16#6": 10992
+     },
+     "salida": "PONG recibidos: 30/40"
+    },
+    {
+     "ticks": 5073,
+     "datos_app": 54,
+     "entregados": 28,
+     "pdr": 0.5185185185185185,
+     "latencia_media": 4.285714285714286,
+     "latencia_max": 12,
+     "tx_datos": 137,
+     "tx_rreq": 151,
+     "tx_rrep": 4,
+     "retransmisiones": 0,
+     "rupturas": 2,
+     "descubrimientos": 79,
+     "descartados": 26,
+     "perdidas_radio": 0,
+     "sobrecarga": 1.1313868613138687,
+     "energia": {
+      "ANDES-64#1": 159.5,
+      "ORINOCO-32#2": 0.0,
+      "CARIBE-16#3": 161.5,
+      "ANDES-64#4": 45.0,
+      "ORINOCO-32#5": 45.5,
+      "CARIBE-16#6": 22.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 40578,
+      "ORINOCO-32#2": 25365,
+      "CARIBE-16#3": 15219,
+      "ANDES-64#4": 40584,
+      "ORINOCO-32#5": 25365,
+      "CARIBE-16#6": 15219
+     },
+     "salida": "PONG recibidos: 14/40"
+    },
+    {
+     "ticks": 4621,
+     "datos_app": 59,
+     "entregados": 38,
+     "pdr": 0.6440677966101694,
+     "latencia_media": 3.1578947368421053,
+     "latencia_max": 46,
+     "tx_datos": 76,
+     "tx_rreq": 241,
+     "tx_rrep": 2,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 65,
+     "descartados": 21,
+     "perdidas_radio": 0,
+     "sobrecarga": 3.1973684210526314,
+     "energia": {
+      "ANDES-64#1": 143.5,
+      "ORINOCO-32#2": 128.5,
+      "CARIBE-16#3": 147.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 118.5,
+      "CARIBE-16#6": 30.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 36963,
+      "ORINOCO-32#2": 23105,
+      "CARIBE-16#3": 13863,
+      "ANDES-64#4": 36968,
+      "ORINOCO-32#5": 23105,
+      "CARIBE-16#6": 13863
+     },
+     "salida": "PONG recibidos: 19/40"
+    },
+    {
+     "ticks": 2737,
+     "datos_app": 80,
+     "entregados": 80,
+     "pdr": 1.0,
+     "latencia_media": 2.05,
+     "latencia_max": 6,
+     "tx_datos": 160,
+     "tx_rreq": 2,
+     "tx_rrep": 2,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.025,
+     "energia": {
+      "ANDES-64#1": 62.0,
+      "ORINOCO-32#2": 123.0,
+      "CARIBE-16#3": 0.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 0.0,
+      "CARIBE-16#6": 61.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 21891,
+      "ORINOCO-32#2": 13685,
+      "CARIBE-16#3": 8211,
+      "ANDES-64#4": 21896,
+      "ORINOCO-32#5": 13685,
+      "CARIBE-16#6": 8211
+     },
+     "salida": "PONG recibidos: 40/40"
+    },
+    {
+     "ticks": 4271,
+     "datos_app": 63,
+     "entregados": 46,
+     "pdr": 0.7301587301587301,
+     "latencia_media": 2.9565217391304346,
+     "latencia_max": 46,
+     "tx_datos": 92,
+     "tx_rreq": 212,
+     "tx_rrep": 2,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 53,
+     "descartados": 17,
+     "perdidas_radio": 0,
+     "sobrecarga": 2.3260869565217392,
+     "energia": {
+      "ANDES-64#1": 166.0,
+      "ORINOCO-32#2": 109.5,
+      "CARIBE-16#3": 106.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 152.0,
+      "CARIBE-16#6": 36.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 34165,
+      "ORINOCO-32#2": 21355,
+      "CARIBE-16#3": 12813,
+      "ANDES-64#4": 34168,
+      "ORINOCO-32#5": 21355,
+      "CARIBE-16#6": 12813
+     },
+     "salida": "PONG recibidos: 23/40"
+    }
+   ]
+  },
+  {
+   "velocidad": 5.0,
+   "corridas": [
+    {
+     "ticks": 3822,
+     "datos_app": 68,
+     "entregados": 56,
+     "pdr": 0.8235294117647058,
+     "latencia_media": 3.3035714285714284,
+     "latencia_max": 9,
+     "tx_datos": 179,
+     "tx_rreq": 83,
+     "tx_rrep": 8,
+     "retransmisiones": 0,
+     "rupturas": 4,
+     "descubrimientos": 39,
+     "descartados": 12,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.5083798882681564,
+     "energia": {
+      "ANDES-64#1": 98.5,
+      "ORINOCO-32#2": 134.0,
+      "CARIBE-16#3": 93.0,
+      "ANDES-64#4": 35.0,
+      "ORINOCO-32#5": 0.0,
+      "CARIBE-16#6": 48.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 30570,
+      "ORINOCO-32#2": 19110,
+      "CARIBE-16#3": 11466,
+      "ANDES-64#4": 30576,
+      "ORINOCO-32#5": 19110,
+      "CARIBE-16#6": 11466
+     },
+     "salida": "PONG recibidos: 28/40"
+    },
+    {
+     "ticks": 4394,
+     "datos_app": 63,
+     "entregados": 46,
+     "pdr": 0.7301587301587301,
+     "latencia_media": 5.8478260869565215,
+     "latencia_max": 53,
+     "tx_datos": 170,
+     "tx_rreq": 143,
+     "tx_rrep": 29,
+     "retransmisiones": 0,
+     "rupturas": 6,
+     "descubrimientos": 60,
+     "descartados": 17,
+     "perdidas_radio": 0,
+     "sobrecarga": 1.011764705882353,
+     "energia": {
+      "ANDES-64#1": 153.5,
+      "ORINOCO-32#2": 70.0,
+      "CARIBE-16#3": 125.0,
+      "ANDES-64#4": 62.5,
+      "ORINOCO-32#5": 67.5,
+      "CARIBE-16#6": 53.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 35150,
+      "ORINOCO-32#2": 21970,
+      "CARIBE-16#3": 13182,
+      "ANDES-64#4": 35152,
+      "ORINOCO-32#5": 21970,
+      "CARIBE-16#6": 13182
+     },
+     "salida": "PONG recibidos: 23/40"
+    },
+    {
+     "ticks": 3519,
+     "datos_app": 72,
+     "entregados": 64,
+     "pdr": 0.8888888888888888,
+     "latencia_media": 3.3125,
+     "latencia_max": 86,
+     "tx_datos": 128,
+     "tx_rreq": 102,
+     "tx_rrep": 2,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 27,
+     "descartados": 8,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.8125,
+     "energia": {
+      "ANDES-64#1": 96.0,
+      "ORINOCO-32#2": 53.5,
+      "CARIBE-16#3": 136.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 51.0,
+      "CARIBE-16#6": 49.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 28147,
+      "ORINOCO-32#2": 17595,
+      "CARIBE-16#3": 10557,
+      "ANDES-64#4": 28152,
+      "ORINOCO-32#5": 17595,
+      "CARIBE-16#6": 10557
+     },
+     "salida": "PONG recibidos: 32/40"
+    },
+    {
+     "ticks": 2745,
+     "datos_app": 80,
+     "entregados": 80,
+     "pdr": 1.0,
+     "latencia_media": 2.1625,
+     "latencia_max": 7,
+     "tx_datos": 163,
+     "tx_rreq": 11,
+     "tx_rrep": 6,
+     "retransmisiones": 0,
+     "rupturas": 2,
+     "descubrimientos": 3,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.10429447852760736,
+     "energia": {
+      "ANDES-64#1": 66.0,
+      "ORINOCO-32#2": 94.5,
+      "CARIBE-16#3": 44.0,
+      "ANDES-64#4": 1.5,
+      "ORINOCO-32#5": 4.5,
+      "CARIBE-16#6": 67.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 21956,
+      "ORINOCO-32#2": 13725,
+      "CARIBE-16#3": 8235,
+      "ANDES-64#4": 21960,
+      "ORINOCO-32#5": 13725,
+      "CARIBE-16#6": 8235
+     },
+     "salida": "PONG recibidos: 40/40"
+    },
+    {
+     "ticks": 3317,
+     "datos_app": 74,
+     "entregados": 68,
+     "pdr": 0.918918918918919,
+     "latencia_media": 2.823529411764706,
+     "latencia_max": 46,
+     "tx_datos": 140,
+     "tx_rreq": 87,
+     "tx_rrep": 7,
+     "retransmisiones": 0,
+     "rupturas": 2,
+     "descubrimientos": 22,
+     "descartados": 6,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.6714285714285714,
+     "energia": {
+      "ANDES-64#1": 108.5,
+      "ORINOCO-32#2": 60.5,
+      "CARIBE-16#3": 43.5,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 127.0,
+      "CARIBE-16#6": 57.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 26533,
+      "ORINOCO-32#2": 16585,
+      "CARIBE-16#3": 9951,
+      "ANDES-64#4": 26536,
+      "ORINOCO-32#5": 16585,
+      "CARIBE-16#6": 9951
+     },
+     "salida": "PONG recibidos: 34/40"
+    }
+   ]
+  },
+  {
+   "velocidad": 10.0,
+   "corridas": [
+    {
+     "ticks": 3524,
+     "datos_app": 72,
+     "entregados": 64,
+     "pdr": 0.8888888888888888,
+     "latencia_media": 3.84375,
+     "latencia_max": 86,
+     "tx_datos": 145,
+     "tx_rreq": 66,
+     "tx_rrep": 13,
+     "retransmisiones": 0,
+     "rupturas": 5,
+     "descubrimientos": 32,
+     "descartados": 8,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.5448275862068965,
+     "energia": {
+      "ANDES-64#1": 96.0,
+      "ORINOCO-32#2": 83.5,
+      "CARIBE-16#3": 54.0,
+      "ANDES-64#4": 32.0,
+      "ORINOCO-32#5": 17.5,
+      "CARIBE-16#6": 62.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 28187,
+      "ORINOCO-32#2": 17620,
+      "CARIBE-16#3": 10572,
+      "ANDES-64#4": 28192,
+      "ORINOCO-32#5": 17620,
+      "CARIBE-16#6": 10572
+     },
+     "salida": "PONG recibidos: 32/40"
+    },
+    {
+     "ticks": 3702,
+     "datos_app": 69,
+     "entregados": 58,
+     "pdr": 0.8405797101449275,
+     "latencia_media": 2.2413793103448274,
+     "latencia_max": 47,
+     "tx_datos": 90,
+     "tx_rreq": 88,
+     "tx_rrep": 6,
+     "retransmisiones": 0,
+     "rupturas": 1,
+     "descubrimientos": 36,
+     "descartados": 11,
+     "perdidas_radio": 0,
+     "sobrecarga": 1.0444444444444445,
+     "energia": {
+      "ANDES-64#1": 117.5,
+      "ORINOCO-32#2": 22.0,
+      "CARIBE-16#3": 78.0,
+      "ANDES-64#4": 12.0,
+      "ORINOCO-32#5": 17.0,
+      "CARIBE-16#6": 46.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 29613,
+      "ORINOCO-32#2": 18510,
+      "CARIBE-16#3": 11106,
+      "ANDES-64#4": 29616,
+      "ORINOCO-32#5": 18510,
+      "CARIBE-16#6": 11106
+     },
+     "salida": "PONG recibidos: 29/40"
+    },
+    {
+     "ticks": 3147,
+     "datos_app": 76,
+     "entregados": 72,
+     "pdr": 0.9473684210526315,
+     "latencia_media": 2.9166666666666665,
+     "latencia_max": 46,
+     "tx_datos": 151,
+     "tx_rreq": 78,
+     "tx_rrep": 12,
+     "retransmisiones": 0,
+     "rupturas": 5,
+     "descubrimientos": 19,
+     "descartados": 4,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.5960264900662252,
+     "energia": {
+      "ANDES-64#1": 93.5,
+      "ORINOCO-32#2": 48.5,
+      "CARIBE-16#3": 90.5,
+      "ANDES-64#4": 46.0,
+      "ORINOCO-32#5": 51.0,
+      "CARIBE-16#6": 69.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 25174,
+      "ORINOCO-32#2": 15735,
+      "CARIBE-16#3": 9441,
+      "ANDES-64#4": 25176,
+      "ORINOCO-32#5": 15735,
+      "CARIBE-16#6": 9441
+     },
+     "salida": "PONG recibidos: 36/40"
+    },
+    {
+     "ticks": 3164,
+     "datos_app": 75,
+     "entregados": 70,
+     "pdr": 0.9333333333333333,
+     "latencia_media": 2.0142857142857142,
+     "latencia_max": 9,
+     "tx_datos": 122,
+     "tx_rreq": 52,
+     "tx_rrep": 12,
+     "retransmisiones": 0,
+     "rupturas": 5,
+     "descubrimientos": 21,
+     "descartados": 5,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.5245901639344263,
+     "energia": {
+      "ANDES-64#1": 87.5,
+      "ORINOCO-32#2": 56.5,
+      "CARIBE-16#3": 18.0,
+      "ANDES-64#4": 27.0,
+      "ORINOCO-32#5": 36.5,
+      "CARIBE-16#6": 66.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 25306,
+      "ORINOCO-32#2": 15820,
+      "CARIBE-16#3": 9492,
+      "ANDES-64#4": 25312,
+      "ORINOCO-32#5": 15820,
+      "CARIBE-16#6": 9492
+     },
+     "salida": "PONG recibidos: 35/40"
+    },
+    {
+     "ticks": 3124,
+     "datos_app": 75,
+     "entregados": 70,
+     "pdr": 0.9333333333333333,
+     "latencia_media": 1.457142857142857,
+     "latencia_max": 7,
+     "tx_datos": 94,
+     "tx_rreq": 69,
+     "tx_rrep": 5,
+     "retransmisiones": 0,
+     "rupturas": 2,
+     "descubrimientos": 18,
+     "descartados": 5,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.7872340425531915,
+     "energia": {
+      "ANDES-64#1": 99.5,
+      "ORINOCO-32#2": 35.0,
+      "CARIBE-16#3": 34.0,
+      "ANDES-64#4": 0.0,
+      "ORINOCO-32#5": 60.5,
+      "CARIBE-16#6": 58.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 24986,
+      "ORINOCO-32#2": 15620,
+      "CARIBE-16#3": 9372,
+      "ANDES-64#4": 24992,
+      "ORINOCO-32#5": 15620,
+      "CARIBE-16#6": 9372
+     },
+     "salida": "PONG recibidos: 35/40"
+    }
+   ]
+  },
+  {
+   "velocidad": 20.0,
+   "corridas": [
+    {
+     "ticks": 3804,
+     "datos_app": 70,
+     "entregados": 60,
+     "pdr": 0.8571428571428571,
+     "latencia_media": 5.416666666666667,
+     "latencia_max": 92,
+     "tx_datos": 140,
+     "tx_rreq": 110,
+     "tx_rrep": 24,
+     "retransmisiones": 0,
+     "rupturas": 9,
+     "descubrimientos": 43,
+     "descartados": 10,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.9571428571428572,
+     "energia": {
+      "ANDES-64#1": 124.0,
+      "ORINOCO-32#2": 49.5,
+      "CARIBE-16#3": 107.0,
+      "ANDES-64#4": 60.0,
+      "ORINOCO-32#5": 21.0,
+      "CARIBE-16#6": 71.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 30431,
+      "ORINOCO-32#2": 19020,
+      "CARIBE-16#3": 11412,
+      "ANDES-64#4": 30432,
+      "ORINOCO-32#5": 19020,
+      "CARIBE-16#6": 11412
+     },
+     "salida": "PONG recibidos: 30/40"
+    },
+    {
+     "ticks": 4420,
+     "datos_app": 61,
+     "entregados": 42,
+     "pdr": 0.6885245901639344,
+     "latencia_media": 2.6666666666666665,
+     "latencia_max": 43,
+     "tx_datos": 62,
+     "tx_rreq": 107,
+     "tx_rrep": 11,
+     "retransmisiones": 0,
+     "rupturas": 3,
+     "descubrimientos": 62,
+     "descartados": 19,
+     "perdidas_radio": 0,
+     "sobrecarga": 1.903225806451613,
+     "energia": {
+      "ANDES-64#1": 116.5,
+      "ORINOCO-32#2": 7.5,
+      "CARIBE-16#3": 54.5,
+      "ANDES-64#4": 31.0,
+      "ORINOCO-32#5": 15.5,
+      "CARIBE-16#6": 45.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 35354,
+      "ORINOCO-32#2": 22100,
+      "CARIBE-16#3": 13260,
+      "ANDES-64#4": 35360,
+      "ORINOCO-32#5": 22100,
+      "CARIBE-16#6": 13260
+     },
+     "salida": "PONG recibidos: 21/40"
+    },
+    {
+     "ticks": 3891,
+     "datos_app": 68,
+     "entregados": 56,
+     "pdr": 0.8235294117647058,
+     "latencia_media": 3.9285714285714284,
+     "latencia_max": 46,
+     "tx_datos": 116,
+     "tx_rreq": 160,
+     "tx_rrep": 26,
+     "retransmisiones": 0,
+     "rupturas": 9,
+     "descubrimientos": 47,
+     "descartados": 12,
+     "perdidas_radio": 0,
+     "sobrecarga": 1.603448275862069,
+     "energia": {
+      "ANDES-64#1": 137.5,
+      "ORINOCO-32#2": 122.5,
+      "CARIBE-16#3": 38.5,
+      "ANDES-64#4": 67.5,
+      "ORINOCO-32#5": 91.5,
+      "CARIBE-16#6": 73.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 31125,
+      "ORINOCO-32#2": 19455,
+      "CARIBE-16#3": 11673,
+      "ANDES-64#4": 31128,
+      "ORINOCO-32#5": 19455,
+      "CARIBE-16#6": 11673
+     },
+     "salida": "PONG recibidos: 28/40"
+    },
+    {
+     "ticks": 3799,
+     "datos_app": 69,
+     "entregados": 58,
+     "pdr": 0.8405797101449275,
+     "latencia_media": 3.913793103448276,
+     "latencia_max": 48,
+     "tx_datos": 126,
+     "tx_rreq": 98,
+     "tx_rrep": 13,
+     "retransmisiones": 0,
+     "rupturas": 5,
+     "descubrimientos": 41,
+     "descartados": 11,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.8809523809523809,
+     "energia": {
+      "ANDES-64#1": 112.5,
+      "ORINOCO-32#2": 86.0,
+      "CARIBE-16#3": 68.0,
+      "ANDES-64#4": 22.5,
+      "ORINOCO-32#5": 34.0,
+      "CARIBE-16#6": 55.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 30388,
+      "ORINOCO-32#2": 18995,
+      "CARIBE-16#3": 11397,
+      "ANDES-64#4": 30392,
+      "ORINOCO-32#5": 18995,
+      "CARIBE-16#6": 11397
+     },
+     "salida": "PONG recibidos: 29/40"
+    },
+    {
+     "ticks": 4130,
+     "datos_app": 66,
+     "entregados": 52,
+     "pdr": 0.7878787878787878,
+     "latencia_media": 5.25,
+     "latencia_max": 90,
+     "tx_datos": 133,
+     "tx_rreq": 183,
+     "tx_rrep": 31,
+     "retransmisiones": 0,
+     "rupturas": 7,
+     "descubrimientos": 53,
+     "descartados": 14,
+     "perdidas_radio": 0,
+     "sobrecarga": 1.6090225563909775,
+     "energia": {
+      "ANDES-64#1": 150.5,
+      "ORINOCO-32#2": 54.5,
+      "CARIBE-16#3": 60.5,
+      "ANDES-64#4": 98.5,
+      "ORINOCO-32#5": 154.0,
+      "CARIBE-16#6": 62.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 33034,
+      "ORINOCO-32#2": 20650,
+      "CARIBE-16#3": 12390,
+      "ANDES-64#4": 33040,
+      "ORINOCO-32#5": 20650,
+      "CARIBE-16#6": 12390
+     },
+     "salida": "PONG recibidos: 26/40"
+    }
+   ]
+  }
+ ],
+ "e3": [
+  {
+   "perdida": 0.0,
+   "corridas": [
+    {
+     "ticks": 2264,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.133333333333334,
+     "latencia_max": 12,
+     "tx_datos": 240,
+     "tx_rreq": 4,
+     "tx_rrep": 4,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.03333333333333333,
+     "energia": {
+      "ANDES-64#1": 47.0,
+      "ORINOCO-32#2": 93.5,
+      "CARIBE-16#3": 93.5,
+      "ANDES-64#4": 93.0,
+      "ORINOCO-32#5": 46.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18106,
+      "ORINOCO-32#2": 11320,
+      "CARIBE-16#3": 6792,
+      "ANDES-64#4": 18112,
+      "ORINOCO-32#5": 11320
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2264,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.133333333333334,
+     "latencia_max": 12,
+     "tx_datos": 240,
+     "tx_rreq": 4,
+     "tx_rrep": 4,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.03333333333333333,
+     "energia": {
+      "ANDES-64#1": 47.0,
+      "ORINOCO-32#2": 93.5,
+      "CARIBE-16#3": 93.5,
+      "ANDES-64#4": 93.0,
+      "ORINOCO-32#5": 46.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18106,
+      "ORINOCO-32#2": 11320,
+      "CARIBE-16#3": 6792,
+      "ANDES-64#4": 18112,
+      "ORINOCO-32#5": 11320
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2264,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.133333333333334,
+     "latencia_max": 12,
+     "tx_datos": 240,
+     "tx_rreq": 4,
+     "tx_rrep": 4,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.03333333333333333,
+     "energia": {
+      "ANDES-64#1": 47.0,
+      "ORINOCO-32#2": 93.5,
+      "CARIBE-16#3": 93.5,
+      "ANDES-64#4": 93.0,
+      "ORINOCO-32#5": 46.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18106,
+      "ORINOCO-32#2": 11320,
+      "CARIBE-16#3": 6792,
+      "ANDES-64#4": 18112,
+      "ORINOCO-32#5": 11320
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2264,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.133333333333334,
+     "latencia_max": 12,
+     "tx_datos": 240,
+     "tx_rreq": 4,
+     "tx_rrep": 4,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.03333333333333333,
+     "energia": {
+      "ANDES-64#1": 47.0,
+      "ORINOCO-32#2": 93.5,
+      "CARIBE-16#3": 93.5,
+      "ANDES-64#4": 93.0,
+      "ORINOCO-32#5": 46.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18106,
+      "ORINOCO-32#2": 11320,
+      "CARIBE-16#3": 6792,
+      "ANDES-64#4": 18112,
+      "ORINOCO-32#5": 11320
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2264,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.133333333333334,
+     "latencia_max": 12,
+     "tx_datos": 240,
+     "tx_rreq": 4,
+     "tx_rrep": 4,
+     "retransmisiones": 0,
+     "rupturas": 0,
+     "descubrimientos": 1,
+     "descartados": 0,
+     "perdidas_radio": 0,
+     "sobrecarga": 0.03333333333333333,
+     "energia": {
+      "ANDES-64#1": 47.0,
+      "ORINOCO-32#2": 93.5,
+      "CARIBE-16#3": 93.5,
+      "ANDES-64#4": 93.0,
+      "ORINOCO-32#5": 46.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18106,
+      "ORINOCO-32#2": 11320,
+      "CARIBE-16#3": 6792,
+      "ANDES-64#4": 18112,
+      "ORINOCO-32#5": 11320
+     },
+     "salida": "PONG recibidos: 30/30"
+    }
+   ]
+  },
+  {
+   "perdida": 0.1,
+   "corridas": [
+    {
+     "ticks": 2265,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.166666666666667,
+     "latencia_max": 12,
+     "tx_datos": 241,
+     "tx_rreq": 7,
+     "tx_rrep": 5,
+     "retransmisiones": 32,
+     "rupturas": 1,
+     "descubrimientos": 2,
+     "descartados": 0,
+     "perdidas_radio": 34,
+     "sobrecarga": 0.04979253112033195,
+     "energia": {
+      "ANDES-64#1": 50.0,
+      "ORINOCO-32#2": 97.0,
+      "CARIBE-16#3": 102.5,
+      "ANDES-64#4": 112.0,
+      "ORINOCO-32#5": 52.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18116,
+      "ORINOCO-32#2": 11325,
+      "CARIBE-16#3": 6795,
+      "ANDES-64#4": 18120,
+      "ORINOCO-32#5": 11325
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2337,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 5.466666666666667,
+     "latencia_max": 92,
+     "tx_datos": 240,
+     "tx_rreq": 7,
+     "tx_rrep": 4,
+     "retransmisiones": 31,
+     "rupturas": 0,
+     "descubrimientos": 3,
+     "descartados": 0,
+     "perdidas_radio": 33,
+     "sobrecarga": 0.04583333333333333,
+     "energia": {
+      "ANDES-64#1": 52.5,
+      "ORINOCO-32#2": 99.0,
+      "CARIBE-16#3": 97.5,
+      "ANDES-64#4": 109.0,
+      "ORINOCO-32#5": 50.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18691,
+      "ORINOCO-32#2": 11685,
+      "CARIBE-16#3": 7011,
+      "ANDES-64#4": 18696,
+      "ORINOCO-32#5": 11685
+     },
+     "salida": "PONG recibidos: 29/30"
+    },
+    {
+     "ticks": 2304,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.8,
+     "latencia_max": 52,
+     "tx_datos": 240,
+     "tx_rreq": 8,
+     "tx_rrep": 4,
+     "retransmisiones": 28,
+     "rupturas": 0,
+     "descubrimientos": 2,
+     "descartados": 0,
+     "perdidas_radio": 30,
+     "sobrecarga": 0.05,
+     "energia": {
+      "ANDES-64#1": 48.5,
+      "ORINOCO-32#2": 103.5,
+      "CARIBE-16#3": 98.0,
+      "ANDES-64#4": 105.5,
+      "ORINOCO-32#5": 52.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18426,
+      "ORINOCO-32#2": 11520,
+      "CARIBE-16#3": 6912,
+      "ANDES-64#4": 18432,
+      "ORINOCO-32#5": 11520
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2304,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.8,
+     "latencia_max": 52,
+     "tx_datos": 240,
+     "tx_rreq": 7,
+     "tx_rrep": 4,
+     "retransmisiones": 34,
+     "rupturas": 0,
+     "descubrimientos": 2,
+     "descartados": 0,
+     "perdidas_radio": 35,
+     "sobrecarga": 0.04583333333333333,
+     "energia": {
+      "ANDES-64#1": 53.5,
+      "ORINOCO-32#2": 100.5,
+      "CARIBE-16#3": 104.0,
+      "ANDES-64#4": 101.0,
+      "ORINOCO-32#5": 53.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18426,
+      "ORINOCO-32#2": 11520,
+      "CARIBE-16#3": 6912,
+      "ANDES-64#4": 18432,
+      "ORINOCO-32#5": 11520
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2304,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.8,
+     "latencia_max": 52,
+     "tx_datos": 240,
+     "tx_rreq": 8,
+     "tx_rrep": 4,
+     "retransmisiones": 26,
+     "rupturas": 0,
+     "descubrimientos": 2,
+     "descartados": 0,
+     "perdidas_radio": 27,
+     "sobrecarga": 0.05,
+     "energia": {
+      "ANDES-64#1": 49.5,
+      "ORINOCO-32#2": 106.5,
+      "CARIBE-16#3": 100.5,
+      "ANDES-64#4": 102.5,
+      "ORINOCO-32#5": 47.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18426,
+      "ORINOCO-32#2": 11520,
+      "CARIBE-16#3": 6912,
+      "ANDES-64#4": 18432,
+      "ORINOCO-32#5": 11520
+     },
+     "salida": "PONG recibidos: 30/30"
+    }
+   ]
+  },
+  {
+   "perdida": 0.2,
+   "corridas": [
+    {
+     "ticks": 2392,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 6.466666666666667,
+     "latencia_max": 98,
+     "tx_datos": 243,
+     "tx_rreq": 22,
+     "tx_rrep": 14,
+     "retransmisiones": 61,
+     "rupturas": 3,
+     "descubrimientos": 7,
+     "descartados": 0,
+     "perdidas_radio": 71,
+     "sobrecarga": 0.14814814814814814,
+     "energia": {
+      "ANDES-64#1": 62.5,
+      "ORINOCO-32#2": 117.0,
+      "CARIBE-16#3": 115.5,
+      "ANDES-64#4": 123.0,
+      "ORINOCO-32#5": 64.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 19131,
+      "ORINOCO-32#2": 11960,
+      "CARIBE-16#3": 7176,
+      "ANDES-64#4": 19136,
+      "ORINOCO-32#5": 11960
+     },
+     "salida": "PONG recibidos: 29/30"
+    },
+    {
+     "ticks": 2384,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 6.233333333333333,
+     "latencia_max": 92,
+     "tx_datos": 242,
+     "tx_rreq": 16,
+     "tx_rrep": 7,
+     "retransmisiones": 62,
+     "rupturas": 2,
+     "descubrimientos": 6,
+     "descartados": 0,
+     "perdidas_radio": 69,
+     "sobrecarga": 0.09504132231404959,
+     "energia": {
+      "ANDES-64#1": 57.5,
+      "ORINOCO-32#2": 110.0,
+      "CARIBE-16#3": 115.5,
+      "ANDES-64#4": 118.0,
+      "ORINOCO-32#5": 60.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 19066,
+      "ORINOCO-32#2": 11920,
+      "CARIBE-16#3": 7152,
+      "ANDES-64#4": 19072,
+      "ORINOCO-32#5": 11920
+     },
+     "salida": "PONG recibidos: 29/30"
+    },
+    {
+     "ticks": 2393,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 6.266666666666667,
+     "latencia_max": 52,
+     "tx_datos": 242,
+     "tx_rreq": 16,
+     "tx_rrep": 8,
+     "retransmisiones": 56,
+     "rupturas": 2,
+     "descubrimientos": 6,
+     "descartados": 0,
+     "perdidas_radio": 66,
+     "sobrecarga": 0.09917355371900827,
+     "energia": {
+      "ANDES-64#1": 63.5,
+      "ORINOCO-32#2": 112.5,
+      "CARIBE-16#3": 115.0,
+      "ANDES-64#4": 111.5,
+      "ORINOCO-32#5": 54.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 19141,
+      "ORINOCO-32#2": 11965,
+      "CARIBE-16#3": 7179,
+      "ANDES-64#4": 19144,
+      "ORINOCO-32#5": 11965
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2315,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 4.966666666666667,
+     "latencia_max": 52,
+     "tx_datos": 242,
+     "tx_rreq": 14,
+     "tx_rrep": 9,
+     "retransmisiones": 65,
+     "rupturas": 2,
+     "descubrimientos": 4,
+     "descartados": 0,
+     "perdidas_radio": 73,
+     "sobrecarga": 0.09504132231404959,
+     "energia": {
+      "ANDES-64#1": 58.0,
+      "ORINOCO-32#2": 119.0,
+      "CARIBE-16#3": 120.5,
+      "ANDES-64#4": 112.5,
+      "ORINOCO-32#5": 54.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 18516,
+      "ORINOCO-32#2": 11575,
+      "CARIBE-16#3": 6945,
+      "ANDES-64#4": 18520,
+      "ORINOCO-32#5": 11575
+     },
+     "salida": "PONG recibidos: 30/30"
+    },
+    {
+     "ticks": 2439,
+     "datos_app": 59,
+     "entregados": 58,
+     "pdr": 0.9830508474576272,
+     "latencia_media": 6.655172413793103,
+     "latencia_max": 92,
+     "tx_datos": 236,
+     "tx_rreq": 38,
+     "tx_rrep": 17,
+     "retransmisiones": 56,
+     "rupturas": 4,
+     "descubrimientos": 11,
+     "descartados": 1,
+     "perdidas_radio": 73,
+     "sobrecarga": 0.2330508474576271,
+     "energia": {
+      "ANDES-64#1": 65.0,
+      "ORINOCO-32#2": 125.0,
+      "CARIBE-16#3": 126.5,
+      "ANDES-64#4": 120.5,
+      "ORINOCO-32#5": 61.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 19508,
+      "ORINOCO-32#2": 12195,
+      "CARIBE-16#3": 7317,
+      "ANDES-64#4": 19512,
+      "ORINOCO-32#5": 12195
+     },
+     "salida": "PONG recibidos: 28/30"
+    }
+   ]
+  },
+  {
+   "perdida": 0.3,
+   "corridas": [
+    {
+     "ticks": 2939,
+     "datos_app": 54,
+     "entregados": 48,
+     "pdr": 0.8888888888888888,
+     "latencia_media": 8.083333333333334,
+     "latencia_max": 52,
+     "tx_datos": 203,
+     "tx_rreq": 80,
+     "tx_rrep": 20,
+     "retransmisiones": 91,
+     "rupturas": 8,
+     "descubrimientos": 31,
+     "descartados": 6,
+     "perdidas_radio": 140,
+     "sobrecarga": 0.49261083743842365,
+     "energia": {
+      "ANDES-64#1": 81.5,
+      "ORINOCO-32#2": 152.0,
+      "CARIBE-16#3": 145.0,
+      "ANDES-64#4": 116.5,
+      "ORINOCO-32#5": 54.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 23508,
+      "ORINOCO-32#2": 14695,
+      "CARIBE-16#3": 8817,
+      "ANDES-64#4": 23512,
+      "ORINOCO-32#5": 14695
+     },
+     "salida": "PONG recibidos: 24/30"
+    },
+    {
+     "ticks": 2550,
+     "datos_app": 60,
+     "entregados": 60,
+     "pdr": 1.0,
+     "latencia_media": 9.3,
+     "latencia_max": 94,
+     "tx_datos": 246,
+     "tx_rreq": 43,
+     "tx_rrep": 19,
+     "retransmisiones": 103,
+     "rupturas": 6,
+     "descubrimientos": 14,
+     "descartados": 0,
+     "perdidas_radio": 124,
+     "sobrecarga": 0.25203252032520324,
+     "energia": {
+      "ANDES-64#1": 75.5,
+      "ORINOCO-32#2": 141.5,
+      "CARIBE-16#3": 145.0,
+      "ANDES-64#4": 133.5,
+      "ORINOCO-32#5": 74.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 20396,
+      "ORINOCO-32#2": 12750,
+      "CARIBE-16#3": 7650,
+      "ANDES-64#4": 20400,
+      "ORINOCO-32#5": 12750
+     },
+     "salida": "PONG recibidos: 27/30"
+    },
+    {
+     "ticks": 2678,
+     "datos_app": 57,
+     "entregados": 53,
+     "pdr": 0.9298245614035088,
+     "latencia_media": 5.849056603773585,
+     "latencia_max": 52,
+     "tx_datos": 218,
+     "tx_rreq": 44,
+     "tx_rrep": 9,
+     "retransmisiones": 79,
+     "rupturas": 6,
+     "descubrimientos": 19,
+     "descartados": 4,
+     "perdidas_radio": 106,
+     "sobrecarga": 0.24311926605504589,
+     "energia": {
+      "ANDES-64#1": 66.5,
+      "ORINOCO-32#2": 134.0,
+      "CARIBE-16#3": 107.0,
+      "ANDES-64#4": 116.5,
+      "ORINOCO-32#5": 62.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 21424,
+      "ORINOCO-32#2": 13390,
+      "CARIBE-16#3": 8034,
+      "ANDES-64#4": 21424,
+      "ORINOCO-32#5": 13390
+     },
+     "salida": "PONG recibidos: 26/30"
+    },
+    {
+     "ticks": 2910,
+     "datos_app": 55,
+     "entregados": 50,
+     "pdr": 0.9090909090909091,
+     "latencia_media": 9.4,
+     "latencia_max": 92,
+     "tx_datos": 208,
+     "tx_rreq": 63,
+     "tx_rrep": 15,
+     "retransmisiones": 76,
+     "rupturas": 5,
+     "descubrimientos": 27,
+     "descartados": 5,
+     "perdidas_radio": 124,
+     "sobrecarga": 0.375,
+     "energia": {
+      "ANDES-64#1": 73.0,
+      "ORINOCO-32#2": 129.0,
+      "CARIBE-16#3": 129.0,
+      "ANDES-64#4": 116.0,
+      "ORINOCO-32#5": 56.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 23276,
+      "ORINOCO-32#2": 14550,
+      "CARIBE-16#3": 8730,
+      "ANDES-64#4": 23280,
+      "ORINOCO-32#5": 14550
+     },
+     "salida": "PONG recibidos: 22/30"
+    },
+    {
+     "ticks": 2751,
+     "datos_app": 57,
+     "entregados": 53,
+     "pdr": 0.9298245614035088,
+     "latencia_media": 8.18867924528302,
+     "latencia_max": 134,
+     "tx_datos": 217,
+     "tx_rreq": 55,
+     "tx_rrep": 14,
+     "retransmisiones": 89,
+     "rupturas": 4,
+     "descubrimientos": 21,
+     "descartados": 4,
+     "perdidas_radio": 122,
+     "sobrecarga": 0.31797235023041476,
+     "energia": {
+      "ANDES-64#1": 70.5,
+      "ORINOCO-32#2": 131.0,
+      "CARIBE-16#3": 130.0,
+      "ANDES-64#4": 122.5,
+      "ORINOCO-32#5": 65.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 22004,
+      "ORINOCO-32#2": 13755,
+      "CARIBE-16#3": 8253,
+      "ANDES-64#4": 22008,
+      "ORINOCO-32#5": 13755
+     },
+     "salida": "PONG recibidos: 24/30"
+    }
+   ]
+  },
+  {
+   "perdida": 0.4,
+   "corridas": [
+    {
+     "ticks": 3985,
+     "datos_app": 44,
+     "entregados": 26,
+     "pdr": 0.5909090909090909,
+     "latencia_media": 14.538461538461538,
+     "latencia_max": 90,
+     "tx_datos": 113,
+     "tx_rreq": 148,
+     "tx_rrep": 21,
+     "retransmisiones": 76,
+     "rupturas": 7,
+     "descubrimientos": 66,
+     "descartados": 18,
+     "perdidas_radio": 183,
+     "sobrecarga": 1.4955752212389382,
+     "energia": {
+      "ANDES-64#1": 98.0,
+      "ORINOCO-32#2": 127.5,
+      "CARIBE-16#3": 114.0,
+      "ANDES-64#4": 95.0,
+      "ORINOCO-32#5": 55.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 31874,
+      "ORINOCO-32#2": 19925,
+      "CARIBE-16#3": 11955,
+      "ANDES-64#4": 31880,
+      "ORINOCO-32#5": 19925
+     },
+     "salida": "PONG recibidos: 11/30"
+    },
+    {
+     "ticks": 3173,
+     "datos_app": 54,
+     "entregados": 46,
+     "pdr": 0.8518518518518519,
+     "latencia_media": 10.869565217391305,
+     "latencia_max": 90,
+     "tx_datos": 202,
+     "tx_rreq": 92,
+     "tx_rrep": 22,
+     "retransmisiones": 122,
+     "rupturas": 13,
+     "descubrimientos": 41,
+     "descartados": 7,
+     "perdidas_radio": 198,
+     "sobrecarga": 0.5643564356435643,
+     "energia": {
+      "ANDES-64#1": 89.0,
+      "ORINOCO-32#2": 157.0,
+      "CARIBE-16#3": 140.5,
+      "ANDES-64#4": 139.5,
+      "ORINOCO-32#5": 64.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 25382,
+      "ORINOCO-32#2": 15865,
+      "CARIBE-16#3": 9519,
+      "ANDES-64#4": 25384,
+      "ORINOCO-32#5": 15865
+     },
+     "salida": "PONG recibidos: 22/30"
+    },
+    {
+     "ticks": 3521,
+     "datos_app": 50,
+     "entregados": 37,
+     "pdr": 0.74,
+     "latencia_media": 11.45945945945946,
+     "latencia_max": 92,
+     "tx_datos": 156,
+     "tx_rreq": 96,
+     "tx_rrep": 18,
+     "retransmisiones": 83,
+     "rupturas": 8,
+     "descubrimientos": 51,
+     "descartados": 13,
+     "perdidas_radio": 155,
+     "sobrecarga": 0.7307692307692307,
+     "energia": {
+      "ANDES-64#1": 99.5,
+      "ORINOCO-32#2": 117.5,
+      "CARIBE-16#3": 104.0,
+      "ANDES-64#4": 96.0,
+      "ORINOCO-32#5": 58.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 28162,
+      "ORINOCO-32#2": 17605,
+      "CARIBE-16#3": 10563,
+      "ANDES-64#4": 28168,
+      "ORINOCO-32#5": 17605
+     },
+     "salida": "PONG recibidos: 15/30"
+    },
+    {
+     "ticks": 3014,
+     "datos_app": 54,
+     "entregados": 46,
+     "pdr": 0.8518518518518519,
+     "latencia_media": 8.391304347826088,
+     "latencia_max": 88,
+     "tx_datos": 196,
+     "tx_rreq": 73,
+     "tx_rrep": 22,
+     "retransmisiones": 116,
+     "rupturas": 10,
+     "descubrimientos": 35,
+     "descartados": 7,
+     "perdidas_radio": 174,
+     "sobrecarga": 0.4846938775510204,
+     "energia": {
+      "ANDES-64#1": 90.5,
+      "ORINOCO-32#2": 118.5,
+      "CARIBE-16#3": 142.0,
+      "ANDES-64#4": 122.0,
+      "ORINOCO-32#5": 72.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 24107,
+      "ORINOCO-32#2": 15070,
+      "CARIBE-16#3": 9042,
+      "ANDES-64#4": 24112,
+      "ORINOCO-32#5": 15070
+     },
+     "salida": "PONG recibidos: 22/30"
+    },
+    {
+     "ticks": 3328,
+     "datos_app": 49,
+     "entregados": 38,
+     "pdr": 0.7755102040816326,
+     "latencia_media": 9.157894736842104,
+     "latencia_max": 92,
+     "tx_datos": 157,
+     "tx_rreq": 91,
+     "tx_rrep": 20,
+     "retransmisiones": 94,
+     "rupturas": 5,
+     "descubrimientos": 43,
+     "descartados": 11,
+     "perdidas_radio": 160,
+     "sobrecarga": 0.7070063694267515,
+     "energia": {
+      "ANDES-64#1": 95.0,
+      "ORINOCO-32#2": 125.0,
+      "CARIBE-16#3": 115.0,
+      "ANDES-64#4": 102.5,
+      "ORINOCO-32#5": 50.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 26618,
+      "ORINOCO-32#2": 16640,
+      "CARIBE-16#3": 9984,
+      "ANDES-64#4": 26624,
+      "ORINOCO-32#5": 16640
+     },
+     "salida": "PONG recibidos: 17/30"
+    }
+   ]
+  },
+  {
+   "perdida": 0.5,
+   "corridas": [
+    {
+     "ticks": 4624,
+     "datos_app": 33,
+     "entregados": 5,
+     "pdr": 0.15151515151515152,
+     "latencia_media": 41.2,
+     "latencia_max": 92,
+     "tx_datos": 42,
+     "tx_rreq": 195,
+     "tx_rrep": 17,
+     "retransmisiones": 46,
+     "rupturas": 5,
+     "descubrimientos": 91,
+     "descartados": 27,
+     "perdidas_radio": 217,
+     "sobrecarga": 5.0476190476190474,
+     "energia": {
+      "ANDES-64#1": 114.5,
+      "ORINOCO-32#2": 123.0,
+      "CARIBE-16#3": 93.0,
+      "ANDES-64#4": 49.5,
+      "ORINOCO-32#5": 28.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 36992,
+      "ORINOCO-32#2": 23120,
+      "CARIBE-16#3": 13872,
+      "ANDES-64#4": 36992,
+      "ORINOCO-32#5": 23120
+     },
+     "salida": "PONG recibidos: 1/30"
+    },
+    {
+     "ticks": 4181,
+     "datos_app": 42,
+     "entregados": 21,
+     "pdr": 0.5,
+     "latencia_media": 42.904761904761905,
+     "latencia_max": 585,
+     "tx_datos": 112,
+     "tx_rreq": 147,
+     "tx_rrep": 27,
+     "retransmisiones": 102,
+     "rupturas": 14,
+     "descubrimientos": 79,
+     "descartados": 21,
+     "perdidas_radio": 241,
+     "sobrecarga": 1.5535714285714286,
+     "energia": {
+      "ANDES-64#1": 101.5,
+      "ORINOCO-32#2": 121.5,
+      "CARIBE-16#3": 120.0,
+      "ANDES-64#4": 103.0,
+      "ORINOCO-32#5": 62.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 33448,
+      "ORINOCO-32#2": 20905,
+      "CARIBE-16#3": 12543,
+      "ANDES-64#4": 33448,
+      "ORINOCO-32#5": 20905
+     },
+     "salida": "PONG recibidos: 8/30"
+    },
+    {
+     "ticks": 4034,
+     "datos_app": 49,
+     "entregados": 33,
+     "pdr": 0.673469387755102,
+     "latencia_media": 26.12121212121212,
+     "latencia_max": 230,
+     "tx_datos": 163,
+     "tx_rreq": 153,
+     "tx_rrep": 36,
+     "retransmisiones": 149,
+     "rupturas": 22,
+     "descubrimientos": 75,
+     "descartados": 16,
+     "perdidas_radio": 302,
+     "sobrecarga": 1.1595092024539877,
+     "energia": {
+      "ANDES-64#1": 115.0,
+      "ORINOCO-32#2": 160.0,
+      "CARIBE-16#3": 162.0,
+      "ANDES-64#4": 147.0,
+      "ORINOCO-32#5": 70.0
+     },
+     "instrucciones": {
+      "ANDES-64#1": 32268,
+      "ORINOCO-32#2": 20170,
+      "CARIBE-16#3": 12102,
+      "ANDES-64#4": 32272,
+      "ORINOCO-32#5": 20170
+     },
+     "salida": "PONG recibidos: 12/30"
+    },
+    {
+     "ticks": 4213,
+     "datos_app": 36,
+     "entregados": 12,
+     "pdr": 0.3333333333333333,
+     "latencia_media": 5.0,
+     "latencia_max": 12,
+     "tx_datos": 54,
+     "tx_rreq": 139,
+     "tx_rrep": 16,
+     "retransmisiones": 43,
+     "rupturas": 3,
+     "descubrimientos": 76,
+     "descartados": 24,
+     "perdidas_radio": 158,
+     "sobrecarga": 2.8703703703703702,
+     "energia": {
+      "ANDES-64#1": 100.0,
+      "ORINOCO-32#2": 88.5,
+      "CARIBE-16#3": 69.0,
+      "ANDES-64#4": 51.5,
+      "ORINOCO-32#5": 23.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 33699,
+      "ORINOCO-32#2": 21065,
+      "CARIBE-16#3": 12639,
+      "ANDES-64#4": 33704,
+      "ORINOCO-32#5": 21065
+     },
+     "salida": "PONG recibidos: 6/30"
+    },
+    {
+     "ticks": 4431,
+     "datos_app": 37,
+     "entregados": 12,
+     "pdr": 0.32432432432432434,
+     "latencia_media": 23.833333333333332,
+     "latencia_max": 92,
+     "tx_datos": 54,
+     "tx_rreq": 158,
+     "tx_rrep": 22,
+     "retransmisiones": 58,
+     "rupturas": 6,
+     "descubrimientos": 84,
+     "descartados": 24,
+     "perdidas_radio": 181,
+     "sobrecarga": 3.3333333333333335,
+     "energia": {
+      "ANDES-64#1": 112.5,
+      "ORINOCO-32#2": 102.0,
+      "CARIBE-16#3": 71.5,
+      "ANDES-64#4": 60.0,
+      "ORINOCO-32#5": 38.5
+     },
+     "instrucciones": {
+      "ANDES-64#1": 35441,
+      "ORINOCO-32#2": 22155,
+      "CARIBE-16#3": 13293,
+      "ANDES-64#4": 35448,
+      "ORINOCO-32#5": 22155
+     },
+     "salida": "PONG recibidos: 4/30"
+    }
+   ]
+  }
+ ],
+ "e4": [
+  {
+   "n": 10,
+   "servicio": {
+    "ORINOCO-32#2": [
+     25,
+     55
+    ],
+    "CARIBE-16#3": [
+     55,
+     55
+    ],
+    "ANDES-64#4": [
+     16,
+     55
+    ]
+   },
+   "salida": "resultado del nodo #2 = 55\nresultado del nodo #4 = 55\nresultado del nodo #3 = 55\ntotal = 165\n"
+  },
+  {
+   "n": 100,
+   "servicio": {
+    "ORINOCO-32#2": [
+     187,
+     5050
+    ],
+    "CARIBE-16#3": [
+     445,
+     5050
+    ],
+    "ANDES-64#4": [
+     72,
+     5050
+    ]
+   },
+   "salida": "resultado del nodo #4 = 5050\nresultado del nodo #2 = 5050\nresultado del nodo #3 = 5050\ntotal = 15150\n"
+  },
+  {
+   "n": 300,
+   "servicio": {
+    "ORINOCO-32#2": [
+     547,
+     45150
+    ],
+    "CARIBE-16#3": [
+     1311,
+     45150
+    ],
+    "ANDES-64#4": [
+     197,
+     45150
+    ]
+   },
+   "salida": "resultado del nodo #4 = 45150\nresultado del nodo #2 = 45150\nresultado del nodo #3 = 45150\ntotal = 135450\n"
+  },
+  {
+   "n": 1000,
+   "servicio": {
+    "ORINOCO-32#2": [
+     1807,
+     500500
+    ],
+    "CARIBE-16#3": [
+     4345,
+     500500
+    ],
+    "ANDES-64#4": [
+     635,
+     500500
+    ]
+   },
+   "salida": "resultado del nodo #4 = 500500\nresultado del nodo #2 = 500500\nresultado del nodo #3 = 500500\ntotal = 1501500\n"
+  }
+ ]
+}

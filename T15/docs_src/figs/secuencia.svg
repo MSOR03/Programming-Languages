@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 330" width="640" height="330" font-family="Arial, Helvetica, sans-serif" font-size="10">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#52514e"/></marker></defs>
+<rect x="50" y="6" width="120" height="22" fill="#ffffff" stroke="#000000"/>
+<text x="110" y="21" text-anchor="middle" fill="#000000" font-weight="bold">ANDES-64 #1</text>
+<line x1="110" x2="110" y1="28" y2="326" stroke="#b9b8b3" stroke-dasharray="4 3"/>
+<rect x="260" y="6" width="120" height="22" fill="#ffffff" stroke="#000000"/>
+<text x="320" y="21" text-anchor="middle" fill="#000000" font-weight="bold">ORINOCO-32 #2</text>
+<line x1="320" x2="320" y1="28" y2="326" stroke="#b9b8b3" stroke-dasharray="4 3"/>
+<rect x="470" y="6" width="120" height="22" fill="#ffffff" stroke="#000000"/>
+<text x="530" y="21" text-anchor="middle" fill="#000000" font-weight="bold">CARIBE-16 #3</text>
+<line x1="530" x2="530" y1="28" y2="326" stroke="#b9b8b3" stroke-dasharray="4 3"/>
+<line x1="110" x2="314" y1="50" y2="64" stroke="#555555" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="215" y="47" text-anchor="middle" fill="#0b0b0b">RREQ (broadcast) busca #3</text>
+<line x1="320" x2="524" y1="84" y2="98" stroke="#555555" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="425" y="81" text-anchor="middle" fill="#0b0b0b">RREQ reenviado (saltos = 2)</text>
+<line x1="530" x2="326" y1="118" y2="132" stroke="#555555" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="425" y="115" text-anchor="middle" fill="#0b0b0b">RREP (unicast, ruta inversa)</text>
+<line x1="320" x2="116" y1="152" y2="166" stroke="#555555" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="215" y="149" text-anchor="middle" fill="#0b0b0b">RREP → ruta a #3 vía #2</text>
+<line x1="110" x2="314" y1="186" y2="200" stroke="#000000" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="215" y="183" text-anchor="middle" fill="#0b0b0b">DATOS SUMA(1000)</text>
+<line x1="320" x2="524" y1="220" y2="234" stroke="#000000" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="425" y="217" text-anchor="middle" fill="#0b0b0b">DATOS reenviado por #2</text>
+<rect x="475" y="242" width="110" height="22" fill="#ffffff" stroke="#000000"/>
+<text x="530" y="257" text-anchor="middle">calcula 1+…+1000</text>
+<line x1="530" x2="326" y1="276" y2="290" stroke="#000000" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="425" y="273" text-anchor="middle" fill="#0b0b0b">RESULTADO(500500)</text>
+<line x1="320" x2="116" y1="310" y2="324" stroke="#000000" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="215" y="307" text-anchor="middle" fill="#0b0b0b">RESULTADO reenviado</text>
+</svg>

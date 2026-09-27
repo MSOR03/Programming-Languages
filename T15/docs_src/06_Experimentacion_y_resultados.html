@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Experimentación y análisis de resultados</title>
+<link rel="stylesheet" href="../estilo.css"></head><body>
+<!--PORTADA|Tarea 15 — Experimentación y análisis de resultados|Cuatro escenarios de prueba del emulador de MANET heterogénea|Entregable (f) · Tarea obligatoria automatizada · Entrega: 28 de septiembre de 2026-->
+{{CABECERA}}
+
+<h2>1. Metodología</h2>
+<p>Se definieron cuatro escenarios (se piden al menos tres). Todos se reproducen con <code>python manet.py barrido</code>, que guarda los datos en <code>resultados/resultados.json</code>; las tablas y gráficas de este documento se generan desde ese archivo. En los escenarios con aleatoriedad (posiciones, movilidad, pérdidas) cada punto es el promedio de <b>5 corridas con semillas 1 a 5</b>, y se muestran también los resultados individuales. Parámetros comunes: alcance de radio 100 m, 1 tick = 10 ms, 1 tick por salto, 3 intentos MAC, relojes de 8 / 5 / 3 instrucciones por tick (ANDES-64 / ORINOCO-32 / CARIBE-16).</p>
+<table>
+<tr><th>Escenario</th><th>Pregunta</th><th>Variable</th></tr>
+<tr><td>E1. Cálculo distribuido multi-salto</td><td>¿Cooperan correctamente tres fabricantes distintos, con enrutamiento a través de un nodo de otra arquitectura?</td><td>—</td></tr>
+<tr><td>E2. Movilidad</td><td>¿Cómo afecta la velocidad de los nodos a la entrega y al control?</td><td>v ∈ {0, 2, 5, 10, 20} m/s</td></tr>
+<tr><td>E3. Enlaces con pérdidas</td><td>¿Cuánta pérdida por transmisión tolera un camino de 4 saltos?</td><td>p ∈ {0; 0,1; …; 0,5}</td></tr>
+<tr><td>E4. Heterogeneidad de las CPU</td><td>¿Cuánto tarda cada arquitectura en atender la misma solicitud?</td><td>n ∈ {10, 100, 300, 1000}</td></tr>
+</table>
+
+<h2>2. Escenario 1 — Cálculo distribuido multi-salto</h2>
+<figure><img src="../figs/topo_e1.svg" style="max-width:80%"><figcaption>Figura 1. Topología fija: 90 m entre vecinos; #1 y #3 (180 m) no están en alcance.</figcaption></figure>
+<p>El coordinador ANDES-64 (#1) pide SUMA(10) al ORINOCO-32 (#2) y SUMA(1000) al CARIBE-16 (#3); este último solo es alcanzable a través del ORINOCO-32, que así funciona a la vez como servidor y como enrutador.</p>
+<h3>Salida del programa del coordinador</h3>
+{{INCLUIR:figs/e1_salida.html}}
+<h3>Bitácora de la red</h3>
+{{INCLUIR:figs/e1_bitacora.html}}
+{{INCLUIR:figs/e1_metricas.html}}
+<h3>Análisis</h3>
+<ul>
+<li><b>Resultados correctos en las tres máquinas:</b> 1+…+10 = 55 y 1+…+1000 = 500 500. Este último supera el máximo de una palabra de 16 bits (65 535): el CARIBE-16 lo obtuvo sumando en doble precisión (dos palabras con propagación del acarreo mediante ADC) y lo transmitió como 4 bytes en orden de red, que el ANDES-64 reconstruyó y extendió a 64 bits. La interoperabilidad depende del formato canónico, no de la arquitectura.</li>
+<li><b>Descubrimiento de rutas:</b> la ruta de 1 salto a #2 se obtuvo en 2 ticks (RREQ + RREP) y la de 2 saltos a #3 en 4 ticks. La primera solicitud tardó 3 ticks en llegar (2 de descubrimiento + 1 de transmisión) y la segunda 6. Los paquetes siguientes ya no pagan ese costo: la respuesta de #2 llegó en 1 tick.</li>
+<li><b>Vencimiento de rutas:</b> el CARIBE-16 tardó 4 345 ticks (43 s simulados) en calcular la suma; para entonces su ruta de vuelta (vida de 300 ticks) había expirado y tuvo que descubrirla de nuevo (RREQ #1 del nodo #3 en t = 4 363). Es el comportamiento esperado de un protocolo reactivo.</li>
+<li><b>Energía:</b> el nodo intermedio (#2) es el que más gasta (12 unidades frente a 8 y 5): en una MANET los nodos centrales pagan el reenvío de tráfico ajeno, lo que motiva protocolos que balancean la carga.</li>
+</ul>
+
+<h2>3. Escenario 2 — Efecto de la movilidad</h2>
+<p>Seis nodos (dos de cada fabricante) con posiciones iniciales aleatorias en 300 m × 300 m se mueven con random waypoint (pausa de 1 s). El ANDES-64 #1 envía 40 PING al CARIBE-16 #6 (uno cada ~0,9 s) y espera cada PONG hasta ~1 s; los demás nodos ejecutan el servidor y reenvían tráfico.</p>
+{{INCLUIR:figs/e2_tabla.html}}
+<figure><img src="../figs/e2_pdr.svg"><figcaption>Figura 2. PDR de la red (todos los paquetes de datos) y fracción de PING respondidos a tiempo, frente a la velocidad (promedio de 5 semillas).</figcaption></figure>
+<figure><img src="../figs/e2_control.svg"><figcaption>Figura 3. Transmisiones de RREQ por corrida.</figcaption></figure>
+<h3>Análisis</h3>
+<ul>
+<li><b>Red estática particionada (v = 0):</b> con 6 nodos en 9 hectáreas y 100 m de alcance, en 3 de las 5 semillas el nodo #6 quedó en una componente distinta a la del #1: 0 de 40 respuestas y 193 RREQ inútiles por corrida (cada PING dispara hasta 3 descubrimientos y termina descartado). En las otras 2 semillas la entrega fue perfecta. El promedio (40 %) oculta un comportamiento de “todo o nada”.</li>
+<li><b>La movilidad moderada mejora la entrega:</b> al moverse, los nodos se reencuentran (el random waypoint además concentra los nodos en el centro del área) y las particiones son temporales: el éxito sube a 63 % (2 m/s), 78,5 % (5 m/s) y 83,5 % (10 m/s), y el control cae de 193 a 71 RREQ por corrida.</li>
+<li><b>La movilidad alta la empeora:</b> a 20 m/s las rupturas de enlace casi se duplican (6,6 por corrida frente a 3,6 a 10 m/s): una ruta de 3 saltos dura poco, se pierden paquetes durante la reparación y el control vuelve a crecer (132 RREQ). Aparece así el compromiso clásico de las MANET entre conectividad y estabilidad de las rutas.</li>
+<li><b>PDR frente a éxito de la aplicación:</b> el PDR cuenta PING y PONG por separado; el éxito de la aplicación exige ambos y dentro del plazo, por lo que siempre es menor (p. ej. 0,80 frente a 67 % a 20 m/s).</li>
+<li>La latencia media se mantuvo baja (1–4 ticks) porque la mayoría de los paquetes encuentran la ruta ya instalada; el máximo aparece en los paquetes que esperan un descubrimiento o una reparación local.</li>
+</ul>
+
+<h2>4. Escenario 3 — Enlaces con pérdidas</h2>
+<figure><img src="../figs/topo_e3.svg"><figcaption>Figura 4. Cadena fija de 5 nodos separados 80 m: el camino de #1 a #5 tiene 4 saltos y atraviesa las tres arquitecturas.</figcaption></figure>
+<p>El ANDES-64 #1 envía 30 PING al ORINOCO-32 #5. Cada transmisión de radio se pierde con probabilidad p.</p>
+{{INCLUIR:figs/e3_tabla.html}}
+<figure><img src="../figs/e3_pdr.svg"><figcaption>Figura 5. PDR medido frente al modelo analítico (1 − p³)⁴ (4 saltos con 3 intentos MAC por salto).</figcaption></figure>
+<figure><img src="../figs/e3_latencia.svg"><figcaption>Figura 6. Latencia media de extremo a extremo.</figcaption></figure>
+<h3>Análisis</h3>
+<ul>
+<li><b>Los reintentos MAC ocultan pérdidas moderadas:</b> hasta p = 0,2 se entregó el 99,7 % de los paquetes, porque la probabilidad de que fallen 3 intentos seguidos en un salto es p³ = 0,008. El costo se paga en retransmisiones (60 por corrida a p = 0,2) y en latencia (de 4,1 a 6,1 ticks), que crece casi linealmente con p.</li>
+<li><b>El modelo explica la tendencia hasta p = 0,3:</b> (1 − p³)⁴ predice 0,897 y se midió 0,932 (la ruta a veces se aprende directamente con los datos y hay reintentos de descubrimiento que rescatan paquetes). En p = 0,4 medición y modelo coinciden (0,762 frente a 0,768), pero en p = 0,5 el sistema cae <b>muy por debajo del modelo</b> (0,397 medido frente a 0,586 predicho).</li>
+<li><b>Causa: rupturas falsas.</b> Cuando fallan los 3 intentos, la capa de enlace declara roto un enlace que sigue en alcance; AODV borra rutas válidas y lanza descubrimientos por inundación que también sufren pérdidas (158 RREQ por corrida en p = 0,5 frente a 4 sin pérdidas). Si 3 descubrimientos fallan, los paquetes se descartan. La pérdida en el canal se amplifica en la capa de red: es la razón por la que protocolos reales usan métricas de calidad de enlace (ETX) en lugar de conteo de saltos.</li>
+<li>La heterogeneidad de los nodos intermedios no afecta el reenvío: el enrutamiento lo realiza la capa de red de cada nodo, independientemente de su CPU.</li>
+</ul>
+
+<h2>5. Escenario 4 — Heterogeneidad de las CPU (tiempo de servicio)</h2>
+<figure><img src="../figs/topo_e4.svg" style="max-width:60%"><figcaption>Figura 7. Estrella: el coordinador (#1, ANDES-64) a un salto de un servidor de cada fabricante.</figcaption></figure>
+<p>El coordinador envía la misma SUMA(n) a los tres servidores. Tiempo de servicio = ticks entre la llegada de la solicitud al servidor y el envío de su respuesta.</p>
+{{INCLUIR:figs/e4_tabla.html}}
+<figure><img src="../figs/e4_servicio.svg"><figcaption>Figura 8. Tiempo de servicio de SUMA(n) por arquitectura.</figcaption></figure>
+<h3>Análisis</h3>
+<ul>
+<li><b>Mismo resultado, costos muy distintos:</b> las tres máquinas devolvieron exactamente el mismo valor en todos los casos (el coordinador imprimió, p. ej., 500 500 tres veces y total = 1 501 500), pero con n = 1000 el CARIBE-16 tardó 6,8 veces más que el ANDES-64 y el ORINOCO-32 2,8 veces más.</li>
+<li><b>Dos causas separables:</b> multiplicando ticks por el reloj de cada CPU se obtienen las instrucciones ejecutadas por iteración del bucle: ANDES-64 ≈ 5 (635 × 8 / 1000), ORINOCO-32 ≈ 9 (1 807 × 5 / 1000) y CARIBE-16 ≈ 13 (4 345 × 3 / 1000). Es decir, una parte de la diferencia (factor ≈ 2,6) se debe al <b>conjunto de instrucciones</b> —la máquina de registros hace la suma y el incremento en registros; la de pila necesita DUP/ROT/SWAP para reordenar operandos; la de acumulador de 16 bits carga y guarda en memoria en cada paso y hace la suma en dos palabras— y el resto (factor ≈ 2,7) a la <b>frecuencia del reloj</b>.</li>
+<li><b>Tamaño de palabra:</b> el CARIBE-16 necesita el doble de trabajo para cada suma porque el resultado no cabe en 16 bits; si se hubiera usado aritmética de 16 bits, SUMA(1000) habría devuelto 500 500 mod 65 536 = 41 748 sin aviso. La heterogeneidad no solo cambia el rendimiento: si los programas no la contemplan, cambia los resultados.</li>
+<li>El costo fijo (n = 10) está dominado por la recepción y el armado de la respuesta, en el que el CARIBE-16 también es el más lento (55 ticks) por mover la PDU byte a byte a través del acumulador.</li>
+</ul>
+
+<h2>6. Conclusiones</h2>
+<ol>
+<li>El emulador permite que tres computadores von Neumann con ISA, tamaños de palabra (64/32/16 bits), orden de bytes, modelos de operandos (registros/pila/acumulador), banderas, memorias y ensambladores distintos cooperen en una MANET, ejecutando programas binarios reales de cada arquitectura.</li>
+<li>La clave de la interoperabilidad es la separación en capas: la red solo transporta bytes, y un formato canónico (PDU con enteros de 32 bits en orden de red) obliga a cada programa a hacer su propia traducción (desplazamientos en ANDES-64, BSWAP en ORINOCO-32, doble precisión en CARIBE-16).</li>
+<li>El enrutamiento reactivo tipo AODV encontró y reparó rutas multi-salto a través de nodos de cualquier fabricante; su desempeño depende fuertemente de la conectividad (particiones), de la velocidad (rupturas) y de la calidad de los enlaces (rupturas falsas y amplificación del control).</li>
+<li>La heterogeneidad de las CPU se manifiesta como diferencias de hasta 7 veces en el tiempo de servicio de una misma operación, atribuibles tanto al repertorio de instrucciones como al reloj, y como riesgo de resultados erróneos si se ignora el tamaño de palabra.</li>
+</ol>
+</body></html>

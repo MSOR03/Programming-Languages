@@ -1,0 +1,37 @@
+; =============================================================================
+;  ANDES-64 - servidor de la MANET
+;    PING(v)  -> responde PONG(v) al origen
+;    SUMA(n)  -> responde RESULTADO(1 + 2 + ... + n)
+; =============================================================================
+            .org  0x000
+inicio:     LEA   R10, buf
+espera:     NRECV R0, buf             ; R0 = bytes recibidos (0 si no hay)
+            CMPI  R0, 0
+            JZ    espera
+            MOVI  R11, 1
+            LDRB  R1, R10, R11        ; tipo
+            CALL  LEER_VALOR          ; R2 = valor
+            CMPI  R1, 3
+            JZ    ping
+            CMPI  R1, 1
+            JNZ   espera              ; tipo desconocido: se ignora
+            MOVI  R3, 0               ; suma
+            MOVI  R4, 1
+suma:       CMP   R4, R2
+            JG    fin_suma
+            ADD   R3, R3, R4
+            INC   R4
+            JMP   suma
+fin_suma:   MOV   R2, R3
+            MOVI  R1, 2
+            JMP   responder
+ping:       MOVI  R1, 4
+responder:  MOVI  R11, 1              ; buf[0] ya contiene el origen, que ahora
+            STRB  R1, R10, R11        ; es el destino de la respuesta
+            CALL  ESCRIBIR_VALOR
+            MOVI  R0, 6
+            NSEND R0, buf
+            JMP   espera
+
+buf:        .space 16
+            .include "pdu.a64"
